@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LIGHT-LAG</title>
+  <link rel="stylesheet" href="/shared/style.css" />
+  <link rel="icon" href="data:," />
+  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/vendor/three/addons/"}}</script>
+  <style>
+    body { overflow-x: hidden; }
+    .hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: minmax(0, 620px) 1fr; }
+    .hero .stage { position: relative; grid-column: 2; grid-row: 1; margin: 24px; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--screen); }
+    .hero .stage::after { content: "MODEL · Earth illustration"; position: absolute; bottom: 24px; left: 24px; color: var(--dim); font: 400 12px var(--num); }
+    .intro { position: relative; z-index: 2; grid-column: 1; grid-row: 1; padding: 48px 24px 48px 48px; display: flex; flex-direction: column; gap: 24px; }
+    .title { font: 400 clamp(48px, 6vw, 80px)/1.1 var(--ui); letter-spacing: -0.035em; margin: 0; display: flex; align-items: center; }
+    .title .gap { position: relative; display: inline-block; width: 1.25em; height: 0.08em; margin: 0 0.12em; top: 0.06em; }
+    .title .gap::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, var(--rule-2) 0 2px, transparent 2px 0.14em); }
+    .title .gap i { position: absolute; top: 50%; left: 0; width: 0.11em; height: 0.11em; border-radius: 50%; background: var(--signal); transform: translate(-50%, -50%);
+      box-shadow: none; animation: none; left: 50%; }
+    @keyframes cross { 0% { left: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+    .premise { font-size: var(--t-l); line-height: 1.55; color: var(--haze); max-width: 34em; margin: 0; }
+    .premise b { color: var(--phosphor); font-weight: 500; }
+    .tagline { font-size: var(--t-xl); line-height: 1.3; color: var(--phosphor); max-width: 26em; margin: 0 0 10px; }
+    @media (max-width: 520px) { .tagline { font-size: var(--t-l); } .premise { font-size: var(--t-m); } }
+    .roles { display: flex; flex-direction: column; border-top: 1px solid var(--rule); max-width: 540px; }
+    .role { display: grid; grid-template-columns: 1fr auto; gap: 2px 18px; padding: 16px 4px; border-bottom: 1px solid var(--rule); text-decoration: none; color: inherit; }
+    .role .who { font-size: var(--t-xl); font-weight: 500; }
+    .role .what { color: var(--haze); grid-column: 1; }
+    .role .go { grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--signal); font-weight: 500; opacity: 1; transform: none; transition: color var(--feedback) var(--ease); }
+    .role:hover .go, .role:focus-visible .go { opacity: 1; transform: none; }
+    .role:hover .who { color: var(--signal); }
+    .role.ship .who::before, .role.control .who::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 12px; vertical-align: 3px; }
+    .role.control .who::before { background: var(--haze); box-shadow: none; }
+    .role.ship .who::before { background: var(--signal); box-shadow: none; }
+    .role.watch .who::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 12px; vertical-align: 3px; border: 1.5px solid var(--haze); box-sizing: border-box; }
+    details.more { max-width: 540px; } details.more summary { cursor: pointer; color: var(--haze); padding: 6px 0; }
+    details.more[open] summary { color: var(--phosphor); }
+    .qr { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+    .qr figure { margin: 0; text-align: center; font-size: var(--t-xs); color: var(--haze); }
+    .qr svg { width: 112px; height: 112px; background: #fff; padding: 5px; border-radius: 4px; display: block; margin-bottom: 4px; }
+    .credit { color: var(--dim); font-size: var(--t-xs); max-width: 540px; }
+    .start { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; max-width: 560px; }
+    .start button { font-size: var(--t-l); padding: 12px 20px; }
+    .start .note { flex-basis: 100%; color: var(--haze); font-size: var(--t-s); margin: 0; }
+    .start-error { color: var(--alarm); font-size: var(--t-s); flex-basis: 100%; margin: 0; }
+    .join { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 540px; }
+    .join h2 { font-size: var(--t-l); margin: 0; flex-basis: 100%; }
+    .join input { font: 500 var(--t-l) var(--num); letter-spacing: .18em; text-transform: uppercase; width: 7.5em; padding: 8px 10px; background: var(--console); color: var(--phosphor); border: 1px solid var(--rule-2); border-radius: 4px; }
+    .join .small { flex-basis: 100%; }
+    /* Phase 6: "Right now", a live fact from the game's own ephemeris */
+    .right-now { display: flex; flex-direction: column; gap: 4px; max-width: 34em; }
+    .right-now .rn-lead { margin: 0; font-size: var(--t-l); line-height: 1.4; color: var(--phosphor); }
+    .right-now .rn-sub { margin: 0; color: var(--haze); font-size: var(--t-m); line-height: 1.45; }
+    .right-now b { font-weight: 400; color: var(--signal); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .right-now .rn-src { margin: 2px 0 0; }
+    @media (max-width: 520px) { .right-now .rn-lead { font-size: var(--t-m); } .right-now .rn-sub { font-size: var(--t-s); } }
+    @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } .intro { padding: 40px 22px; } .hero .stage { position: relative; grid-column: 1; grid-row: 2; height: 320px; min-height: 0; margin: 16px; }
+ }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="stage" aria-label="Illustrative Earth view"><canvas id="earth"></canvas></div>
+    <div class="intro">
+      <div class="right-now" id="right-now" hidden>
+        <p class="rn-lead">Right now, light takes <b id="rn-lt">–</b> to cross from Earth to Mars.</p>
+        <p class="rn-sub">A message sent this second arrives at <b id="rn-at">–</b> your time.</p>
+        <p class="rn-src small dim" id="rn-src"></p>
+      </div>
+      <h1 class="title" aria-label="Light-lag"><span>Light</span><span class="gap"><i></i></span><span>lag</span></h1>
+      <p class="tagline">A co-op Mars mission game. Design the mission. Then live with it at the speed of light.</p>
+      <p class="premise">Up to four players. Two in <b>Houston</b>, two aboard <b>a ship to Mars</b> with a crew of four.
+        You design the mission together and a review board checks it. Then you fly it apart: every word between Earth and the ship crosses space at the speed of light,
+        on the real dates of the 2020 launch window, and arrives minutes old. In flight, the game tells you which of your choices decided what.
+        Any seat nobody takes is played by AI. Playing alone? Take Flight Director.</p>
+      <div class="start">
+        <button class="primary" id="demo">Watch the 7-minute demo</button>
+        <button id="new-mission">Start a new mission</button>
+        <p class="note">The demo plays itself in its own room: design, the review board, the storm, the silence behind the Sun, the debrief. Take any seat whenever you like. A new mission opens the Flight Director seat; invite the others from there.</p>
+        <p class="start-error" id="start-error" role="alert" hidden></p>
+      </div>
+      <form class="join" id="join" aria-label="Join a mission">
+        <h2>Join a mission</h2>
+        <label class="small haze" for="room-code" style="flex-basis:auto">Room code</label>
+        <input id="room-code" name="room" maxlength="4" autocomplete="off" spellcheck="false" placeholder="MAIN" aria-describedby="room-help" />
+        <span class="small dim" id="room-help">Four letters, shown on every screen of a mission. Leave it empty for the shared room on this server.</span>
+      </form>
+      <nav class="roles" aria-label="Choose your seat">
+        <a class="role control" href="/control/"><span class="who">Flight Director</span><span class="what">Lantern Control, Houston. You see everything, late.</span><span class="go">Take this seat</span></a>
+        <a class="role control" href="/control/?seat=scientist"><span class="who">Mission Scientist</span><span class="what">Lantern Science, Houston. You choose what the mission is for, and what gets sent home first.</span><span class="go">Take this seat</span></a>
+        <a class="role ship" href="/ship/"><span class="who">Commander Imani Reyes</span><span class="what">Aboard Meridian-1. You see the ship as it is, and Earth as it was.</span><span class="go">Take this seat</span></a>
+        <a class="role ship" href="/ship/?seat=engineer"><span class="who">Flight Engineer Daniel Okafor</span><span class="what">Aboard Meridian-1. Power, life support and every repair. You argued for every kilogram of margin.</span><span class="go">Take this seat</span></a>
+        <a class="role watch" href="/spectator/"><span class="who">Everyone else</span><span class="what">Watch both sides at once, on a big screen or a phone, and wave at the ship.</span><span class="go">Watch</span></a>
+      </nav>
+      <details class="more" id="lan-box"><summary>Play on several devices</summary><p class="small haze">Both devices need to be on the same network. Scan or type one of these.</p><div id="lan"></div></details>
+      <details class="more"><summary>Server controls (the computer running the game)</summary>
+        <div class="stack" style="margin-top:10px">
+          <div class="row"><button id="judge">Restart the shared room as the demo</button><span class="small dim grow">Resets room MAIN. Needs the admin token on a public server.</span></div>
+          <div class="row"><button id="normal">Restart the shared room</button><button id="truedelay">Restart it with the true light delay</button></div>
+          <pre id="health" class="small dim" style="white-space:pre-wrap;max-height:220px;overflow:auto"></pre>
+        </div></details>
+      <p class="credit">Goodnight, over · NASA Space Apps 2026. Planet positions from NASA JPL SPICE; Earth imagery from NASA Blue Marble and Black Marble.</p>
+    </div>
+  </div>
+  <script type="module">
+    import { $, el } from '/shared/ll.js';
+    import { SpaceView } from '/shared/viewport.js';
+    try { new SpaceView($('#earth'), { hero: true, labels: false, interactive: false, shift: () => 0 }); } catch (e) { /* no WebGL: the page still works */ }
+    fetch('/api/health').then((r) => r.json()).then((h) => { $('#health').textContent = JSON.stringify({ phase: h.phase, ephemeris: h.ephemeris, agents: h.agents,
+      anomaly: h.anomaly_detector, voice: h.voice, space_weather: h.space_weather, dsn_now: h.dsn_now, airplane: h.airplane, config: h.config }, null, 2); });
+    fetch('/api/lan').then((r) => r.json()).then((lan) => {
+      const box = $('#lan'); box.innerHTML = '';
+      for (const u of lan.urls) {
+        box.append(el('div', { class: 'num signal', style: 'margin-top:10px' }, u.url));
+        box.append(el('div', { class: 'qr' }, ['control', 'scientist', 'ship', 'engineer', 'spectator'].map((r) => el('figure', {}, el('div', { html: u.qr[r] || '' }),
+          { control: 'Flight Director', scientist: 'Mission Scientist', ship: 'Commander', engineer: 'Flight Engineer', spectator: 'Watch' }[r]))));
+      }
+      if (!lan.urls.length) box.append(el('p', { class: 'small dim' }, 'No network found. Connect to Wi-Fi to play on two devices.'));
+    });
+    // ---- Phase 6: "Right now". The server computes it from the same ephemeris the game
+    // uses; if that is unavailable (503) the line stays hidden, never a made-up number.
+    {
+      const box = $('#right-now'), dot = document.querySelector('.title .gap i'), opened = Date.now();
+      const still = matchMedia('(prefers-reduced-motion: reduce)');
+      let rn = null, timer = null;
+      const fmt = (s) => { s = Math.round(s); const m = Math.floor(s / 60); return m ? `${m} min ${String(s % 60).padStart(2, '0')} s` : `${s} s`; };
+      const draw = () => {
+        if (!rn) return;
+        const now = Date.now(), lt = rn.lt_s + (rn.lt_rate || 0) * (now / 1000 - rn.unix);
+        $('#rn-lt').textContent = fmt(lt);
+        $('#rn-at').textContent = new Date(Math.floor(now / 1000) * 1000 + lt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+        // The dot between "Light" and "lag" is light that left Earth when this page opened.
+        if (dot && !still.matches) { dot.style.left = `${(((now - opened) / 1000) % lt) / lt * 100}%`; dot.title = 'Light that left Earth when you opened this page, on its way to Mars'; }
+      };
+      const tick = () => { draw(); timer = setTimeout(tick, 1000 - (Date.now() % 1000) + 5); };
+      const load = async () => {
+        try {
+          const r = await fetch('/api/right-now');
+          if (!r.ok) throw new Error(String(r.status));
+          rn = await r.json();
+          $('#rn-src').textContent = rn.label === 'analytic ephemeris, MODEL' ? 'Computed now from the analytic ephemeris, MODEL' : `Computed now from ${rn.label}`;
+          box.hidden = false;
+          if (!timer) tick(); else draw();
+        } catch { rn = null; box.hidden = true; clearTimeout(timer); timer = null; }
+      };
+      load(); setInterval(load, 60000);
+    }
+    // ---- Phase 5: rooms. Every mission is a room with a code; seats link into it.
+    const params = new URLSearchParams(location.search);
+    const code = $('#room-code');
+    if (params.get('room')) code.value = params.get('room').toUpperCase();
+    const seatLinks = () => {
+      const room = code.value.toUpperCase().replace(/[^A-Z]/g, '');
+      document.querySelectorAll('nav.roles a').forEach((a) => {
+        const base = a.dataset.path || (a.dataset.path = a.getAttribute('href'));
+        a.setAttribute('href', room && room !== 'MAIN' ? `${base}${base.includes('?') ? '&' : '?'}room=${room}` : base);
+      });
+    };
+    code.addEventListener('input', seatLinks); seatLinks();
+    $('#join').addEventListener('submit', (e) => { e.preventDefault(); location.href = document.querySelector('nav.roles a').href; });
+    const startRoom = async (judge, open) => {
+      const err = $('#start-error'); err.hidden = true;
+      try {
+        const r = await fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ judge }) });
+        const body = await r.json();
+        if (!r.ok) throw new Error(body.error || 'Could not start a mission.');
+        location.href = body.links[open];
+      } catch (e) { err.textContent = e.message; err.hidden = false; }
+    };
+    $('#demo').onclick = () => startRoom(true, 'spectator');
+    $('#new-mission').onclick = () => startRoom(false, 'control');
+    // The shared room's reset needs the admin token on a public server; ask once per tab.
+    const reset = async (q, retry = true) => {
+      const headers = {}; try { const t = sessionStorage.getItem('lightlag.admin'); if (t) headers['X-Admin-Token'] = t; } catch {}
+      const r = await fetch('/api/admin/reset' + q, { method: 'POST', headers });
+      if (r.ok) return location.reload();
+      if (r.status === 403 && retry) { const t = prompt('Admin token for this server:'); if (t) { try { sessionStorage.setItem('lightlag.admin', t); } catch {} return reset(q, false); } }
+      $('#start-error').textContent = (await r.json().catch(() => ({}))).error || 'Reset failed.'; $('#start-error').hidden = false;
+    };
+    $('#judge').onclick = () => reset('?judge=1&delay_scale=0.1');
+    $('#normal').onclick = () => reset('?judge=0&delay_scale=0.1');
+    $('#truedelay').onclick = () => reset('?judge=0&delay_scale=1.0');
+  </script>
+</body>
+</html>

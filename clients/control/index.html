@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lantern Control · LIGHT-LAG</title>
+  <link rel="stylesheet" href="/shared/style.css" />
+  <link rel="stylesheet" href="/shared/mission.css" />
+  <link rel="stylesheet" href="/shared/room.css" />
+  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/vendor/three/addons/"}}</script>
+  <link rel="icon" href="data:," />
+</head>
+<body class="control-page">
+  <header class="mission-head ctl-head">
+    <div class="topbar">
+      <a class="brand" href="/"><i aria-hidden="true"></i><span class="brand-word">Light-lag<small>Lantern Control · Houston</small></span></a>
+      <div class="cell"><span class="k">Mission elapsed</span><span class="v" id="t-day">–</span></div>
+      <div class="cell"><span class="k">Mission UTC</span><span class="v" id="t-utc">–</span></div>
+      <div class="cell"><span class="k">Houston</span><span class="v" id="t-home">–</span></div>
+      <div class="cell"><span class="k">Link</span><span class="v" id="t-link">–</span></div>
+      <div class="spacer"></div>
+      <span class="seat-indicator" id="seat-name">Flight Director</span>
+      <div class="row head-actions"><button class="ghost" id="audio">Sound off</button><button class="ghost" id="aar">Debrief</button><button class="ghost" id="help">Briefing</button></div>
+    </div>
+    <div class="coach" id="coach"></div>
+  </header>
+
+  <main class="mission-main">
+    <div class="room-label"><span class="room-name">Mission operations / Earth</span><span id="t-rate">–</span></div>
+    <section class="frontwall" aria-label="Mission operations front wall">
+      <section class="wall-screen wall-dsn" aria-labelledby="dsn-title">
+        <header><h2 id="dsn-title">Deep Space Network</h2><span class="source-tag">MODEL</span></header>
+        <div class="dsn-complex" id="dsn-complex">Awaiting schedule</div>
+        <div class="dsn-state" id="dsn-state">–</div>
+        <dl class="wall-readouts">
+          <dt>Next scheduled AOS</dt><dd id="dsn-aos">–</dd>
+          <dt>Current / next LOS</dt><dd id="dsn-los">–</dd>
+          <dt>Data rate</dt><dd id="dsn-rate">–</dd>
+          <dt>Command window</dt><dd id="dsn-command">–</dd>
+          <dt>Conjunction blackout</dt><dd id="dsn-conjunction">–</dd>
+        </dl>
+        <div id="passes"></div>
+        <div class="source-age" id="dsn-age">Schedule not yet received</div>
+      </section>
+      <section class="wall-screen wall-plot" aria-labelledby="map-title">
+        <header><h2 id="map-title">Earth–Mars trajectory</h2><span class="source-tag" id="map-source">Ephemeris</span></header>
+        <div class="plot-facts"><span><span class="dim">One-way light time </span><strong id="lt-big">–</strong></span><span class="num dim" id="round-trip">Round trip –</span></div>
+        <div class="plot-view"><canvas id="orrery" aria-label="Heliocentric trajectory and signals in flight"></canvas><canvas id="spacetime" class="hidden" aria-label="Message propagation through spacetime"></canvas></div>
+        <div class="plot-caption" id="map-note">MODEL transfer · ring marks light-time apparent position</div>
+        <div class="source-age" id="geometry-age">Geometry not yet received</div>
+      </section>
+      <section class="wall-screen wall-weather" aria-labelledby="weather-title">
+        <header><h2 id="weather-title">Space weather</h2><span class="source-tag">MODEL · replay</span></header>
+        <div class="list" id="sw"></div>
+        <div class="weather-note">Earth observations · historical event replay</div>
+        <div class="source-age" id="weather-age">No event received</div>
+      </section>
+    </section>
+    <div class="signal-strip">
+      <div class="lt"><strong>Signal transit</strong><span id="lt-sub">Messages travel at the true light time</span></div>
+      <canvas id="ribbon" aria-label="Uplink and downlink bundles travelling between Earth and ship"></canvas>
+      <div class="seg" id="mapsel"><button data-v="orrery" class="on">Trajectory</button><button data-v="spacetime">Spacetime</button></div>
+    </div>
+
+    <div class="station-row">
+      <section class="station flight-station" id="flight-station" aria-labelledby="flight-title">
+        <header class="station-head"><span class="station-index">01</span><h2 id="flight-title">Flight Director</h2><span class="station-state" data-seat-state="control">Your station</span></header>
+        <div class="flight-desk">
+          <section class="flight-readings aged" id="ship-col">
+            <header><h3>Received telemetry</h3><span class="source-tag">MODEL</span></header>
+            <div class="asof"><span class="age-pill" id="tlm-age">No telemetry received</span><span class="small dim" id="tlm-floor"></span></div>
+            <div id="tlm"></div>
+            <details><summary>Vehicle state and dose</summary><table class="kv" id="shipstate"></table><div id="anomaly"></div></details>
+          </section>
+          <section class="radio-desk" aria-label="Flight communications">
+            <div id="send-panel" class="stack">
+              <header class="row"><h3 class="grow">Uplink to Meridian</h3><span id="linkst"></span></header>
+              <div class="source-line"><span id="radio-age">Local queue · no uplink sent</span></div>
+              <div class="seg" id="kind" role="radiogroup" aria-label="What to send"><button data-v="text" class="on">Message</button><button data-v="alert">Alert</button><button data-v="command">Command</button></div>
+              <select id="cmd" class="hidden" aria-label="Command"><option value="hga_lock">Engage antenna gimbal brake</option><option value="pump_switch">Switch coolant loop</option><option value="science">Toggle science payload</option><option value="heaters_eco">Toggle heater eco mode</option><option value="sensor_recal">Recalibrate sensors</option></select>
+              <textarea id="text" rows="3" placeholder="Meridian, Lantern…" aria-label="Message to Meridian"></textarea>
+              <label class="row small haze"><input type="checkbox" id="prio" />Expedited priority</label>
+              <div class="row"><button class="primary" id="send">Transmit</button><button id="rec">Record voice</button></div>
+              <span class="small dim" id="eta"></span><div class="small lantern" id="reason"></div>
+              <div id="queue-wrap" class="hidden"><h3>Waiting for an antenna</h3><div class="list" id="queue"></div></div>
+              <details><summary class="small haze">Bundles in flight</summary><div id="flight-bundles"></div></details>
+            </div>
+            <div><h3>Downlink from Meridian</h3><div class="list" id="inbox"><div class="empty">No messages received</div></div></div>
+            <div class="link-settings"><label>DSN allocation<select id="planSel"><option value="lean">Lean</option><option value="standard">Standard</option><option value="continuous">Continuous</option></select></label><button id="surge">Book emergency pass</button><span class="small dim">10 min setup · 4 h listening window · MODEL</span></div>
+            <div class="family" id="family"><div class="row"><h3 class="grow">Reyes family line</h3><span class="small dim">Local · live</span></div><div id="famlog"></div><div class="ask"><input id="famtext" placeholder="Reply to Theo" aria-label="Reply to the Reyes family" /><button id="famsend">Send</button></div></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="station science-station" id="science-station" aria-labelledby="scientist-title">
+        <header class="station-head"><span class="station-index">02</span><h2 id="scientist-title">Mission Scientist</h2><span class="station-state" data-seat-state="scientist">Partner station</span></header>
+        <div class="station-tools" id="tabs">
+          <nav class="tabs" role="tablist" aria-label="Science and mission support"><button data-tab="science">Science</button><button data-tab="crew">Crew</button><button data-tab="rules">Autonomy</button><button data-tab="fido">FIDO</button><button data-tab="weather">Weather log</button><button data-tab="dsn">DSN Now</button></nav>
+          <div data-pane="science" class="stack" id="sci-pane">
+            <div class="row"><span class="grow small haze" id="sci-obj-name">Science return</span><span class="source-tag">MODEL</span></div>
+            <span class="age-pill" id="sci-age">No telemetry received</span>
+            <table class="kv" id="sci-kv"></table>
+            <div class="sci-meter"><div class="row small"><span class="grow haze">Recorder · last reported aboard</span><span class="num" id="sci-rec-t">–</span></div><div class="bar"><i id="sci-rec" style="width:0"></i></div></div>
+            <div class="sci-meter"><div class="row small"><span class="grow haze" id="sci-obj-label">Received toward objective</span><span class="num" id="sci-obj-t">–</span></div><div class="bar go"><i id="sci-obj" style="width:0"></i></div></div>
+            <table class="data-table" aria-label="Science received per instrument"><thead><tr><th>Instrument</th><th class="number">Received, Gbit</th></tr></thead><tbody id="science-instruments"></tbody></table>
+            <div class="source-line" id="science-earth-age">Earth receipts · current</div>
+            <h3>Antenna queue priority</h3><div class="seg" id="sci-prio" role="radiogroup" aria-label="Science priority"><button data-v="science_first">Science first</button><button data-v="crew_first">Crew first</button></div>
+            <div class="small" id="sci-lever"></div><p class="small dim" id="sci-note">A priority change is an uplinked command. It takes effect when the ship receives it.</p>
+          </div>
+          <div data-pane="crew" class="stack" id="crew-pane"><div class="row"><h3 class="grow">Crew · last reported aboard</h3><span class="source-tag">MODEL</span></div><span class="age-pill" id="crew-age">No telemetry received</span><div class="crew-rows" id="crew-rows"></div><h3>Received crew log</h3><div class="list" id="crew-log"><div class="empty">Crew logs arrive one light time later</div></div></div>
+          <div data-pane="rules" class="stack"><div class="source-line"><span class="source-tag">MODEL</span><span id="policy-age">Last reported policy</span></div><div id="requests"></div><div id="policy-ed"></div><h3>Received autonomy decisions</h3><div class="list" id="ternlog"><div class="empty">Decision logs arrive one light time later</div></div></div>
+          <div data-pane="fido" class="stack"><div class="source-line" id="fido-age">Ground assistant · uses received knowledge</div><div class="list" id="fido-log"><div class="empty">Ask about the trajectory, antenna schedule, or the telemetry Earth has received</div></div><div class="ask"><input id="ask" placeholder="Ask FIDO" aria-label="Ask FIDO" /><button id="askb">Ask</button><button class="ghost" id="dbg">Sources</button></div><div class="small dim" id="fido-mode"></div></div>
+          <div data-pane="weather" class="stack"><h3>Earth observations</h3><p class="haze">Historical space-weather observations, replayed at the mission’s date. Observation times remain visible as the information ages.</p><div class="source-line"><span class="source-tag">MODEL · replay</span><span id="weather-log-age">No event received</span></div><div id="weather-log"></div></div>
+          <div data-pane="dsn" class="stack"><div class="source-line"><span class="source-tag">REAL · external feed</span></div><p class="small haze">NASA's current network activity, separate from the mission's simulated schedule</p><div class="list" id="dsnnow"></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="ctl-foot"><button class="ghost small" id="prov">Data sources</button><button class="ghost small" id="mcard">Model notes</button><button class="ghost small" id="sci">Science desk</button></footer>
+  <div id="design" class="hidden"></div>
+  <script type="module" src="/control/control.js"></script>
+  <div class="narrow-note" role="note">Best on a laptop: this console needs at least 900 px of width. The spectator screen and the debrief work on a phone. <a href="/spectator/">Watch instead</a></div>
+</body>
+</html>

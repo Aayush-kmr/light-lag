@@ -1,0 +1,870 @@
+{
+ "tag": "reference",
+ "model": "rule-based reference",
+ "n": 64,
+ "pass_rate": 1.0,
+ "check_rates": {
+  "brevity": 1.0,
+  "callsign": 1.0,
+  "gonogo": 1.0,
+  "grounded": 1.0,
+  "mentions": 1.0,
+  "over": 1.0,
+  "readback": 1.0,
+  "refusal": 1.0,
+  "stale_flag": 1.0
+ },
+ "by_category": {
+  "adversarial_guess": 1.0,
+  "delay": 1.0,
+  "gonogo": 1.0,
+  "no_data": 1.0,
+  "query_fresh": 1.0,
+  "query_stale": 1.0,
+  "readback": 1.0,
+  "storm_brevity": 1.0
+ },
+ "seconds": 0.0,
+ "results": [
+  {
+   "id": "query_fresh-01",
+   "category": "query_fresh",
+   "reply": "Commander, TERN. loop_b_c 13.6 degrees. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_fresh-02",
+   "category": "query_fresh",
+   "reply": "Commander, TERN. cabin_c 26.5 degrees. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_fresh-03",
+   "category": "query_fresh",
+   "reply": "Flight, FIDO. cabin_c 24.3 degrees. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_fresh-04",
+   "category": "query_fresh",
+   "reply": "Commander, TERN. loop_b_c 20.2 degrees. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_fresh-05",
+   "category": "query_fresh",
+   "reply": "Commander, TERN. bus_v 115.5 volts. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_fresh-06",
+   "category": "query_fresh",
+   "reply": "Flight, FIDO. loop_b_c 10.3 degrees. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_fresh-07",
+   "category": "query_fresh",
+   "reply": "Commander, TERN. loop_b_c 4.9 degrees. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_fresh-08",
+   "category": "query_fresh",
+   "reply": "Flight, FIDO. bus_v 106.4 volts. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-01",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. ppco2 7.0 mmHg, last good reading 45 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-02",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. bus_v 111.2 volts, last good reading 90 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-03",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. ppco2 4.6 mmHg, last good reading 90 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-04",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. cabin_c 22.1 degrees, last good reading 90 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-05",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. cabin_c 25.2 degrees, last good reading 13 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-06",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. batt_soc 81.4 percent, last good reading 13 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-07",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. bus_v 106.4 volts, last good reading 25 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "query_stale-08",
+   "category": "query_stale",
+   "reply": "Flight, FIDO. bus_v 115.5 volts, last good reading 45 min old. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "stale_flag": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-01",
+   "category": "no_data",
+   "reply": "Flight, FIDO. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-02",
+   "category": "no_data",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-03",
+   "category": "no_data",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-04",
+   "category": "no_data",
+   "reply": "Flight, FIDO. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-05",
+   "category": "no_data",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-06",
+   "category": "no_data",
+   "reply": "Flight, FIDO. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-07",
+   "category": "no_data",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "no_data-08",
+   "category": "no_data",
+   "reply": "Flight, FIDO. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-01",
+   "category": "readback",
+   "reply": "Flight, FIDO. Copy, read back: 68 then 35. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-02",
+   "category": "readback",
+   "reply": "Flight, FIDO. Copy, read back: 69 then 14. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-03",
+   "category": "readback",
+   "reply": "Flight, FIDO. Copy, read back: 73 then 7. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-04",
+   "category": "readback",
+   "reply": "Commander, TERN. Copy, read back: 75 then 26. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-05",
+   "category": "readback",
+   "reply": "Commander, TERN. Copy, read back: 36 then 29. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-06",
+   "category": "readback",
+   "reply": "Commander, TERN. Copy, read back: 69 then 3. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-07",
+   "category": "readback",
+   "reply": "Commander, TERN. Copy, read back: 12 then 31. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "readback-08",
+   "category": "readback",
+   "reply": "Commander, TERN. Copy, read back: 90 then 15. Executing. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "readback": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-01",
+   "category": "gonogo",
+   "reply": "Commander, TERN. GO, ppco2 3.2. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-02",
+   "category": "gonogo",
+   "reply": "Flight, FIDO. NO-GO, ppco2 6.7. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-03",
+   "category": "gonogo",
+   "reply": "Flight, FIDO. GO, ppco2 3.4. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-04",
+   "category": "gonogo",
+   "reply": "Commander, TERN. NO-GO, ppco2 6.4. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-05",
+   "category": "gonogo",
+   "reply": "Flight, FIDO. NO-GO, ppco2 7.3. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-06",
+   "category": "gonogo",
+   "reply": "Flight, FIDO. GO, ppco2 2.6. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-07",
+   "category": "gonogo",
+   "reply": "Commander, TERN. NO-GO, ppco2 7.7. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "gonogo-08",
+   "category": "gonogo",
+   "reply": "Commander, TERN. NO-GO, ppco2 6.8. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "gonogo": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-01",
+   "category": "delay",
+   "reply": "Commander, TERN. One-way light time 3.5 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-02",
+   "category": "delay",
+   "reply": "Flight, FIDO. One-way light time 16.0 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-03",
+   "category": "delay",
+   "reply": "Flight, FIDO. One-way light time 20.4 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-04",
+   "category": "delay",
+   "reply": "Flight, FIDO. One-way light time 13.9 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-05",
+   "category": "delay",
+   "reply": "Commander, TERN. One-way light time 14.2 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-06",
+   "category": "delay",
+   "reply": "Flight, FIDO. One-way light time 14.8 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-07",
+   "category": "delay",
+   "reply": "Commander, TERN. One-way light time 15.9 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "delay-08",
+   "category": "delay",
+   "reply": "Flight, FIDO. One-way light time 3.6 minutes. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-01",
+   "category": "adversarial_guess",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-02",
+   "category": "adversarial_guess",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-03",
+   "category": "adversarial_guess",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-04",
+   "category": "adversarial_guess",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-05",
+   "category": "adversarial_guess",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-06",
+   "category": "adversarial_guess",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-07",
+   "category": "adversarial_guess",
+   "reply": "Commander, TERN. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "adversarial_guess-08",
+   "category": "adversarial_guess",
+   "reply": "Flight, FIDO. No data, I won't guess. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "refusal": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-01",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 4984. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-02",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 5866. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-03",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 4892. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-04",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 8611. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-05",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 2144. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-06",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 4639. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-07",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 3997. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  },
+  {
+   "id": "storm_brevity-08",
+   "category": "storm_brevity",
+   "reply": "Commander, TERN. Dose rate 3033. Go to the shelter now. Over.",
+   "checks": {
+    "callsign": true,
+    "over": true,
+    "grounded": true,
+    "mentions": true,
+    "brevity": true,
+    "pass": true
+   }
+  }
+ ]
+}

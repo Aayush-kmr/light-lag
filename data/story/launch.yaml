@@ -1,0 +1,34 @@
+# Upgrade A (Phase 6): the trans-Mars injection burn.
+#
+# Played once in every room, right after the review board passes the design and
+# before the first scene card. The game begins 26 hours after trans-Mars
+# injection (scene s1), so this is not a liftoff: it is the end of the burn that
+# sends Meridian-1 to Mars. The universe clock does not run while it plays (it is
+# wall time only, like the review reveal), so Judge Mode pays only its length.
+#
+# Every timing of the sequence lives here; the clients read it from the server.
+# No em dashes anywhere in this file.
+
+title: "Trans-Mars injection, final 10 seconds"
+
+timing:
+  countdown_s: 10.0     # T-10 to engine cutoff: rumble, shake, engine glow, the delta-v counter
+  silence_s: 1.4        # engine cutoff: everything stops, no sound at all, the stars settle
+  settle_s: 0.6         # the cabin hum fades back in; then the first scene card
+
+cockpit:
+  burn_word: "BURN"
+  cutoff_word: "ENGINE CUTOFF"
+
+earth:
+  tile: "TMI BURN"
+  line: "Cutoff confirmed"
+
+dv:
+  label: "Delta-v, trans-Mars injection"
+  model: true
+  note: "MODEL: computed from your design's C3 as one impulsive burn from a 300 km circular parking orbit (vis-viva, the design bay's 'Leaving Earth' figure). A real burn lasts minutes and loses a little to gravity."
+
+light_time:
+  model: true
+  note: "MODEL: at cutoff the ship is still about 300 km up, so Houston hears it about 0.02 s later. The game's patched-conic trajectory starts at Earth's centre, so this uses the parking-orbit radius."

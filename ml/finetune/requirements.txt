@@ -1,0 +1,8 @@
+# QLoRA fine-tune on an RTX 4090
+torch>=2.3
+transformers>=4.51
+peft>=0.12
+trl>=0.19
+bitsandbytes>=0.43
+datasets>=2.20
+accelerate>=0.33

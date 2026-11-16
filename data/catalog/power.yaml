@@ -1,0 +1,65 @@
+# Power hardware options for Meridian-1.
+# The ship model (server/lightlag/sim/subsystems.py) scales solar output by
+# 1/r^2 from its 1 AU value and drains a battery of the chosen capacity.
+# string_loss_frac: share of output lost when one array string fails. MODEL:
+# 0.18 (the flight model's default) unless an array sets its own.
+
+solar_arrays:
+  - id: array_light
+    name: "Light array"
+    kw_at_1au: 28.0
+    mass_t: 0.28
+    sources: [sst_soa_power, nssdc_mars_fact]
+    model: [kw_at_1au, mass_t]
+    note: >
+      Same 100 W/kg as the standard array. Plenty at Earth, but Mars gets 43% of
+      Earth's sunlight, so it cannot carry the ship there.
+  - id: array_std
+    name: "Standard array"
+    kw_at_1au: 32.0
+    mass_t: 0.32
+    sources: [sst_soa_power]
+    model: [kw_at_1au, mass_t]
+    note: >
+      Sized at 100 W/kg, below the 165 W/kg state of the art for small spacecraft
+      panels: large crewed arrays carry structure, booms and wiring.
+  - id: array_thin
+    name: "Lightweight array"
+    kw_at_1au: 30.5
+    mass_t: 0.20
+    string_loss_frac: 0.34
+    sources: [sst_soa_power]
+    model: [kw_at_1au, mass_t, string_loss_frac]
+    note: >
+      Lighter, at about 150 W/kg, and just enough at Mars. It is wired as three
+      large strings, so losing one costs a third of its output.
+  - id: array_large
+    name: "Oversized array"
+    kw_at_1au: 42.0
+    mass_t: 0.42
+    sources: [sst_soa_power]
+    model: [kw_at_1au, mass_t]
+    note: "More margin at Mars (1.38-1.67 AU) and after a string failure."
+
+batteries:
+  - id: batt_40
+    name: "40 kWh battery"
+    kwh: 40.0
+    mass_t: 0.27
+    sources: [sst_soa_power]
+    model: [mass_t]
+    note: "150 Wh/kg at pack level (cells reach up to 265 Wh/kg)."
+  - id: batt_60
+    name: "60 kWh battery"
+    kwh: 60.0
+    mass_t: 0.40
+    sources: [sst_soa_power]
+    model: [mass_t]
+    note: "The baseline Meridian-1 battery."
+  - id: batt_90
+    name: "90 kWh battery"
+    kwh: 90.0
+    mass_t: 0.60
+    sources: [sst_soa_power]
+    model: [mass_t]
+    note: "Rides out longer power deficits, at a mass cost."

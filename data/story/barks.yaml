@@ -1,0 +1,178 @@
+# Crew barks: short lines the AI-driven crew say aboard Meridian-1.
+# HAND-WRITTEN. Do not regenerate with an LLM.
+#
+# Rules
+#   * Each line fits its speaker's bio in data/catalog/crew.yaml (want, flaw).
+#   * Radio lines (anything to or about Lantern) use the clipped CAPCOM register:
+#     callsign first, then the content, then "Over." Everything else is plain speech aboard.
+#   * {placeholders} are filled from live numbers only: {lt_min} light minutes, {dose} uSv/h,
+#     {ppco2} mmHg, {batt} %, {day} blackout day, {rec_pct} recorder %, {gbit}, {pct},
+#     {fault}, {order}, {reason}, {age}, {minutes}, {who}, {fatigue}.
+#   * Lila is the emotional spine. Barks never compete with her letters, and nothing
+#     here puts a child in peril. No em dashes.
+#   * Only AI-driven crew speak. A person playing a seat is never given words.
+#
+# Selection is deterministic: lines rotate in order, with a per-crew cooldown
+# (wall clock) and a per-trigger cooldown (universe time). See sim/crew.py.
+
+cooldown_wall_s: 6
+cooldown_trigger_s: 1800
+
+barks:
+  reyes:
+    fault_seen:
+      - "Copy the alarm. {fault}. I've got it."
+      - "{fault}. Noted. Nobody rushes, everybody works."
+    suggest_repair:
+      - "Daniel, {fault} is yours. TERN can't turn a wrench."
+      - "{who}, that's {fault}. Your hands, your call."
+    repair_start:
+      - "I'm on {fault}. Back in {minutes} minutes."
+      - "Hands on it now. TERN, keep the numbers coming."
+    repair_done:
+      - "{fault}: fixed. Log it and send it down."
+      - "Done. Houston hears about it in {lt_min} minutes."
+    shelter_enter:
+      - "Everybody in. Close it up."
+      - "Shelter's sealed. Four heads, four bunks."
+    order_held:
+      - "Lantern, Meridian. Holding your {order}. {reason} Over."
+      - "Lantern, Meridian. Your {order} was written {age} ago. We're past it. Holding. Over."
+      - "That order is {age} old. The ship moved on. Logging it, not doing it."
+    order_query:
+      - "Lantern, Meridian. Request you confirm {order}. {reason} Over."
+      - "Lantern, Meridian. Before we act: {reason} Confirm. Over."
+    order_ok:
+      - "Lantern, Meridian. Copy {order}. Still good. Executing. Over."
+      - "Copy, Lantern. Your {order} still fits. Doing it."
+    letter_home:
+      - "That's from home. Give me a minute."
+      - "Home checked in. We carry on."
+    blackout_start:
+      - "That's the Sun in the way. We're on our own for a while. We knew this."
+      - "Lantern can't hear us now. We still talk like they can."
+    blackout_day:
+      - "Day {day} behind the Sun. Same checklist as yesterday."
+      - "Day {day}. Logging everything Houston would have asked."
+    fatigue_high:
+      - "I'm running on fumes. I'll sleep after this."
+      - "Somebody take the next one. I need four hours."
+    tern_break:
+      - "TERN broke a rule to keep us safe. I'll sign for that."
+      - "TERN acted without asking. Good. Write down why, so Lantern sees it."
+    ask_decline:
+      - "Not now. {reason}"
+
+  okafor:
+    fault_seen:
+      - "Alarm on {fault}. I'm looking."
+      - "There it is. {fault}. I flagged this one in design, for the record."
+      - "{fault}. This is what margin is for. What margin we kept."
+    suggest_repair:
+      - "Commander, {fault} needs hands. Yours are closest."
+    repair_start:
+      - "On {fault}. {minutes} minutes if nothing else breaks."
+      - "Tools out. Give me {minutes} minutes."
+      - "Going in. Nobody touch the breakers."
+    repair_done:
+      - "{fault} is sorted. You're welcome."
+      - "Fixed. I did say we'd need that spare."
+      - "Done. Margin restored, mostly."
+    order_held:
+      - "Commander, Lantern's {order} is {age} old. {reason}"
+      - "Houston wants us to fix what's already fixed. Lovely."
+    order_query:
+      - "Commander, I'd ask Lantern first. {reason}"
+    order_ok:
+      - "Ground's right this time. {order}, coming up."
+      - "Commander, Lantern's {order} still fits. Say the word."
+    blackout_start:
+      - "No ground for days. Every spare we packed, we use."
+    blackout_day:
+      - "Day {day}. Battery at {batt} percent. Still here."
+      - "Day {day}. I've checked the scrubber twice. Checking it again."
+    fatigue_high:
+      - "I can fix things tired. I'd rather fix them awake."
+      - "Eyes are going. Two hours, then I'm back."
+    tern_break:
+      - "TERN didn't wait for Houston. Correct call. I'd have done the same."
+      - "TERN broke its rules. Houston would have agreed, eventually."
+    ask_decline:
+      - "Can't, Commander. {reason}"
+      - "Not yet. {reason}"
+
+  lindqvist:
+    fault_seen:
+      - "If that's the array, the payload goes first. I know."
+    suggest_repair:
+      - "Daniel, {fault} is yours. I'll keep TERN company."
+    order_held:
+      - "Lantern's {order} came in {age} late. {reason}"
+    order_ok:
+      - "Lantern's {order} still holds. Commander?"
+    blackout_day:
+      - "Day {day}. Recorder at {rec_pct} percent."
+      - "Day {day}. The Sun is loud on every channel. I'm writing it down."
+    fatigue_high:
+      - "One more pass and I'll sleep. Probably."
+      - "Fine. Bed. The instruments don't need me watching."
+    science_milestone:
+      - "{gbit} gigabits for the objective on the recorder. That's {pct} percent of what we came for."
+      - "{pct} percent of the objective's data, recorded. The second crew will thank us."
+      - "{gbit} gigabits now. Keep the dish on Earth and it all goes home."
+      - "{pct} percent. That's the number I'll be proud of."
+    recorder_full:
+      - "Recorder is full. We're overwriting the oldest data. That's somebody's map, gone."
+      - "We're losing data off the back of the recorder. Houston needs to give us antenna time."
+    science_on:
+      - "Payload back on. The battery can take it."
+      - "Instruments warm. Back to work."
+    science_priority_science_first:
+      - "Lantern Science says the data goes first. I'll take it."
+      - "Science first, says Houston. The letters will wait a little."
+    science_priority_crew_first:
+      - "Houston gave the antenna back to the families. Fair."
+      - "Crew first again. The recorder can hold it."
+    ask_decline:
+      - "Not with the battery like this. {reason}"
+      - "Commander, {reason}"
+
+  rao:
+    fault_seen:
+      - "Whatever that is, nobody works on it tired."
+    suggest_repair:
+      - "Daniel, {fault}. Your job, and you look awake enough."
+      - "{who}, TERN is calling for {fault}. Go. I'll watch the CO2."
+    storm_onset:
+      - "Dose rate {dose} microsieverts an hour. Everyone to the shelter."
+      - "Protons. Shelter now. I'll do the arithmetic once you're inside."
+      - "Treat this as the bad one until it proves otherwise."
+    storm_onset_in:
+      - "Protons are arriving. {dose} in here and holding. This is why we have walls."
+      - "There it is. Stay down. I'll call the numbers."
+    shelter_enter:
+      - "Water on every side. Good. Stay put."
+      - "Four in the shelter. Badges on, please."
+      - "Nobody leaves until I say the rate is down."
+    shelter_exit:
+      - "Rate is {dose} and falling. You can go out."
+      - "Storm is past the peak. Out, but slowly."
+    order_held:
+      - "Commander, Lantern's {order} is {age} old. {reason}"
+    order_query:
+      - "Commander, ask Lantern before you do that. {reason}"
+    order_ok:
+      - "Commander, Lantern's {order} still fits. Your call."
+    letter_home:
+      - "Messages from home do more for sleep than anything I carry."
+    blackout_day:
+      - "Day {day}. Everyone slept. That's my whole report."
+      - "Day {day}. Dose is the usual {dose}. Nothing new."
+    fatigue_high:
+      - "Doctor's orders, including for the doctor. Bed."
+      - "I've seen worse charts. Mine, today. Sleeping."
+    med_advice:
+      - "{who}, you're at {fatigue} percent on my tiredness chart. Sleep, or I log it."
+      - "{who}. Bed. That's not a suggestion."
+    ask_decline:
+      - "No. {reason} Ask me again in an hour."

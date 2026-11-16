@@ -1,0 +1,140 @@
+# Design-to-flight callouts: when something in flight turned on a design
+# choice, the game says so, with the number and a counterfactual.
+#
+# Each entry:
+#   id        callout id (also the trigger name in server/lightlag/sim/callouts.py)
+#   side      where the event happens: ship (aboard; Earth hears it only when the
+#             callout's own downlink bundle arrives, a light time later), earth,
+#             or both (geometry both sides compute for themselves)
+#   seat      the design seat whose call it was (control, scientist, ship, engineer, both)
+#   step      the design-bay step that made the call
+#   template  the line, with {placeholders}; plain words, numbers with units
+#   choice    what was chosen, for the "why" drawer
+#   counter   the counterfactual, for the "why" drawer; always MODEL: the same
+#             model formula re-evaluated with the other choice, never a re-run
+#   sources   catalog source keys behind the numbers (data/catalog/sources.yaml)
+#   show      false: kept for the debrief, never shown in flight
+#   event     the flight event in plain words, for the debrief's chains
+#
+# Counterfactuals are deterministic and cheap. No em dashes in this file.
+
+callouts:
+  - id: tern_acted_alone
+    event: "TERN acted on its own, inside the rules"
+    side: ship
+    seat: both
+    step: "TERN's rules"
+    template: "You let TERN {action} on its own. It did; Lantern hears about it {lead} later."
+    choice: "{rule}: Acts alone"
+    counter: "Set to Asks first, TERN would have waited about {rtt} for an answer from Lantern."
+
+  - id: tern_rule_broken
+    event: "TERN acted against the rules to protect the crew"
+    side: ship
+    seat: both
+    step: "TERN's rules"
+    template: "TERN broke the rule you wrote ({permission}), because the answer would have come too late: {rtt} round trip, harm in {tth}."
+    choice: "{rule}: {permission}"
+    counter: "With the rule set to Acts alone, TERN would have acted within the rules. Earth could not have answered in time either way."
+
+  - id: power_distance
+    event: "The battery ran down at Mars with every system healthy"
+    side: ship
+    seat: engineer
+    step: "Power"
+    template: "Your {margin} power margin was figured at 1.524 AU. Mars is {r} AU from the Sun now: the array gives {supply} kW for a {load} kW load, so TERN shed the payload."
+    choice: "{array}, {margin} margin at Mars's mean distance"
+    counter: "With the oversized array, the same day at {r} AU leaves {alt_spare} kW to spare (MODEL, sunlight falls as 1/r²)."
+    sources: [nssdc_mars_fact, sst_soa_power]
+
+  - id: power_string
+    event: "A solar array string failed behind the Sun"
+    side: ship
+    seat: engineer
+    step: "Power"
+    template: "Your {margin} power margin could not carry the payload one string short: {degraded} kW for a {load} kW load. Science paused."
+    choice: "{array}, {margin} margin at Mars"
+    counter: "With the oversized array, one string short still leaves {alt_spare} kW to spare: the payload keeps running (MODEL)."
+    sources: [nssdc_mars_fact, sst_soa_power]
+
+  - id: battery_bridge
+    event: "The battery ran down to TERN's load-shed line"
+    side: ship
+    seat: engineer
+    step: "Power"
+    template: "The {kwh} kWh battery bought {hours} before TERN had to act."
+    choice: "{battery}"
+    counter: "The 90 kWh battery would have bought about {alt_hours}; the 40 kWh about {low_hours} (MODEL, same deficit)."
+    sources: [sst_soa_power]
+
+  - id: lien_true
+    event: "A lien from the review came true"
+    side: ship
+    seat: both
+    step: "Review"
+    template: "The board flagged this at review: {lien_text}"
+    choice: "Accepted at review as a lien"
+    counter: "Fixing the lien before launch would have cost a design change, and possibly a slip."
+    show: false
+
+  - id: storm_shelter
+    event: "The solar storm reached the ship"
+    side: ship
+    seat: ship
+    step: "Crew protection"
+    template: "{shelter_t} t of shelter water held the storm to {dose} mSv. Without it: about {without} mSv (MODEL)."
+    template_outside: "The crew took the storm outside the shelter: {dose} mSv. Inside it: about {inside} mSv (MODEL)."
+    choice: "Storm shelter {shelter} g/cm², hull liner {liner} g/cm²"
+    counter: "Same storm, same choices aboard, shelter water {alt_shelter} g/cm²: about {alt_dose} mSv (MODEL, same shielding formula)."
+    sources: [nasa_std_3001_tb020]
+
+  - id: emergency_pass
+    event: "Lantern booked an emergency antenna pass"
+    side: earth
+    seat: control
+    step: "Radio time"
+    template: "You could book an emergency pass because the {plan} plan left {free} antenna hours a day free."
+    template_full: "The continuous plan already had an antenna on the ship: the warning left the moment it was written."
+    choice: "{plan} radio plan, {hours} hours a day"
+    counter: "On the continuous plan an antenna is always listening, for about ${dsn_extra} M more in Deep Space Network time (MODEL)."
+    sources: [scan_mocs_0001]
+
+  - id: conjunction
+    event: "The Sun slid between Earth and Mars"
+    side: both
+    seat: control
+    step: "Launch date"
+    template: "Your arrival date put {dark} days of solar conjunction inside the stay. Commands stop now; TERN's rules carry the ship."
+    choice: "Arrival {arrival}"
+    counter: "Arriving 30 days earlier, the same {stay}-day stay would hold {alt_dark} dark days (MODEL, same link model)."
+    sources: [nssdc_mars_fact]
+
+  - id: recorder_gap
+    event: "The silence ended and the recorder was counted"
+    side: ship
+    seat: scientist
+    step: "Science payload"
+    template: "The recorder filled during the silence: {lost} Gbit overwritten. Without the {biggest}, it would all have fit (MODEL)."
+    template_held: "The 160 Gbit recorder held all {gen} Gbit made during the silence. A high-resolution camera would have filled it in about {fill_days} days (MODEL)."
+    choice: "Payload: {payload}"
+    counter: "{counter}"
+    sources: [mro_ssr]
+
+  - id: science_milestone
+    event: "Science data reached Lantern"
+    side: earth
+    seat: scientist
+    step: "Science payload"
+    template: "{lead_inst} has brought home {pct}% of what {objective} needs."
+    choice: "Objective: {objective}; payload: {payload}"
+    counter: "Without the {lead_inst}, the payload would cover {alt_cov} of this objective instead of {cov} (MODEL, 1.0 covers it)."
+
+  - id: science_result
+    event: "The mission ended"
+    side: earth
+    seat: scientist
+    step: "Objective"
+    template: "{verdict}: {delivered} Gbit of the {need} Gbit {objective} needs came home."
+    choice: "Objective: {objective}"
+    counter: "The design bay expected about {expected} Gbit for this payload and radio plan (MODEL)."
+    show: false

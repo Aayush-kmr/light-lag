@@ -1,0 +1,10 @@
+{
+ "synthetic": [
+  {
+   "file": "synth_dialogues.jsonl",
+   "license": "MIT (team-generated)",
+   "n": 1600,
+   "seed": 11
+  }
+ ]
+}

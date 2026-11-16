@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meridian-1 · LIGHT-LAG</title>
+  <link rel="stylesheet" href="/shared/style.css" />
+  <link rel="stylesheet" href="/shared/mission.css" />
+  <link rel="stylesheet" href="/shared/room.css" />
+  <link rel="icon" href="data:," />
+  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/vendor/three/addons/"}}</script>
+</head>
+<body class="ship-page">
+  <header class="mission-head">
+    <div class="topbar" id="topbar">
+      <a class="brand ship" href="/"><i aria-hidden="true"></i><span class="brand-word">Light-lag<small>Meridian-1 · flight deck</small></span></a>
+      <div class="cell"><span class="k">Mission elapsed</span><span class="v" id="t-day">–</span></div>
+      <div class="cell"><span class="k">Mission UTC</span><span class="v" id="t-utc">–</span></div>
+      <div class="cell"><span class="k">Houston</span><span class="v" id="t-home">–</span></div>
+      <div class="cell"><span class="k">One-way to Earth</span><span class="v" id="t-lt">–</span></div>
+      <div class="cell"><span class="k">Link</span><span class="v" id="t-link">–</span></div>
+      <div class="spacer"></div><span class="seat-indicator" id="seat-name">Commander</span>
+      <div class="row head-actions"><button class="ghost" id="audio">Sound off</button><button class="ghost" id="aar">Debrief</button><button class="ghost" id="help">Briefing</button></div>
+    </div>
+    <div class="coach" id="coach"></div>
+  </header>
+  <main class="ship-deck">
+    <div class="ship-left">
+    <section class="cabin-window" aria-labelledby="window-title">
+      <header class="window-head"><h2 id="window-title">Vehicle viewport</h2><span class="grow" id="viewport-source">Awaiting ephemeris</span><span class="source-tag">MODEL spacecraft</span></header>
+      <div class="stage" id="stage"><canvas id="view" aria-label="Procedural Meridian spacecraft under the mission's Sun vector"></canvas></div>
+      <div class="viewbar"><div class="seg" id="mode" role="group" aria-label="Camera"><button data-v="outside" class="on">Vehicle</button><button data-v="window">Window</button></div><div class="seg" id="look" role="group" aria-label="Look at"><button data-v="auto" class="on">Follow</button><button data-v="earth">Earth</button><button data-v="mars">Mars</button><button data-v="sun">Sun</button></div><span class="view-note">Drag to orbit</span></div>
+      <div class="source-line" id="craft-config">Awaiting vehicle configuration</div>
+    </section>
+    <section class="station commander-station" id="commander-station" aria-labelledby="commander-title">
+      <header class="station-head"><span class="station-index">01</span><h2 id="commander-title">Commander</h2><span class="station-state" data-seat-state="ship">Your station</span></header>
+      <div class="safety-console">
+        <div class="source-line"><span class="source-tag">MODEL</span><span>Local sensors · live aboard</span></div>
+        <div class="safety-readouts"><div><span class="k">Cabin dose rate</span><span class="v" id="bridge-dose">–</span><span class="u"> µSv/h</span></div><div><span class="k">Cumulative dose</span><span class="v" id="bridge-total">–</span><span class="u"> mSv</span><div class="small dim" id="bridge-limit">–</div></div><button id="shelter">Enter storm shelter</button></div>
+        <div class="status" id="status" role="status" aria-label="Vehicle alarms"></div>
+        <div class="bridge-crew" id="bridge-crew"></div>
+        <div class="letters hidden" id="letters"></div><div class="prompt hidden" id="prompt"></div>
+      </div>
+    </section>
+    </div>
+  <aside class="side station engineer-station" id="side" aria-labelledby="engineer-title">
+    <header class="station-head"><span class="station-index">02</span><h2 id="engineer-title">Flight Engineer</h2><span class="station-state" data-seat-state="engineer">Partner station</span></header>
+    <nav class="side-tabs" role="tablist">
+      <button data-tab="systems">Systems</button>
+      <button data-tab="tern">TERN</button>
+      <button data-tab="crew">Crew</button>
+      <button data-tab="radiation">Radiation</button>
+      <button data-tab="lantern">Lantern</button>
+    </nav>
+
+    <section data-pane="tern" class="pane-wrap" >
+      <div class="pane">
+        <div class="row"><h2 class="grow">The ship's AI</h2><span class="badge plain" id="tern-mode">starting</span></div>
+        <div class="list" id="tern-log"><div class="empty">TERN reports here when something changes aboard.</div></div>
+        <h3>TERN's rules</h3>
+        <div id="policy"></div>
+        <div class="foot-links"><button class="ghost small" id="dbg">What TERN looked up</button><button class="ghost small" id="mcard">About the AI</button></div>
+      </div>
+      <div class="dock"><div class="ask"><input id="ask" placeholder="Ask TERN" aria-label="Ask TERN" /><button id="askb">Ask</button></div></div>
+    </section>
+
+    <section data-pane="crew" class="pane" id="crew-pane">
+      <div class="source-line"><span class="source-tag">MODEL</span><span>Live aboard · morale is never scored</span></div><div class="row"><h2 class="grow">The crew</h2><span class="badge plain" id="crew-mode">–</span></div>
+      <div class="crew-cards" id="crew-cards"></div>
+      <h3>What the crew said</h3>
+      <div class="list" id="crew-said"><div class="empty">The crew talk here. Houston hears it one light time later.</div></div>
+    </section>
+
+    <section data-pane="systems" class="pane"><div class="source-line"><span class="source-tag">MODEL</span><span>Local sensors · live aboard</span></div><div id="systems"></div></section>
+
+    <section data-pane="radiation" class="pane"><div class="source-line"><span class="source-tag">MODEL</span><span>Local radiation model · live aboard</span></div>
+      <div><span class="haze small">Dose rate in the cabin, now</span>
+        <div class="dose-now"><span class="v" id="dose-now">–</span><span class="haze">µSv per hour</span></div>
+        <div class="small dim" id="dose-ctx"></div></div>
+
+      <div class="sep"></div>
+      <div><div class="row"><span class="grow haze">Mission dose so far</span><span class="num" id="dose-total">–</span></div>
+        <div class="bar" style="margin-top:8px"><i id="dose-bar" style="width:0"></i></div>
+        <div class="small dim" style="margin-top:6px" id="dose-limit"></div></div>
+      <table class="kv" id="dose-split"></table>
+      <div id="sci-rad"></div>
+    </section>
+
+    <section data-pane="lantern" class="pane-wrap" >
+      <div class="pane"><div class="list" id="inbox"><div class="empty">Nothing from Lantern yet.</div></div></div>
+      <div class="dock">
+        <div class="row"><div class="seg" id="to" role="radiogroup" aria-label="Send to"><button data-v="control" class="on">To Lantern</button><button data-v="home">To Lila</button></div>
+          <span class="grow small dim" id="eta"></span></div>
+        <textarea id="text" rows="3" placeholder="Lantern, Meridian. …"></textarea>
+        <div class="row"><button class="primary" id="send">Transmit</button><button id="rec">Record voice</button><span class="grow small dim" id="reason"></span></div>
+      </div>
+    </section>
+
+    <div class="foot-links" style="padding: 8px 12px; border-top: 1px solid var(--rule)">
+      <button class="ghost small" id="prov">Where the data comes from</button><button class="ghost small" id="sci">The science</button>
+    </div>
+  </aside>
+  </main>
+  <div id="design" class="hidden"></div>
+  <script type="module" src="/ship/ship.js"></script>
+  <div class="narrow-note" role="note">Best on a laptop: this cockpit needs at least 900 px of width. The spectator screen and the debrief work on a phone. <a href="/spectator/">Watch instead</a></div>
+</body>
+</html>

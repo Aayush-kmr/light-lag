@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mission Fact Sheet, Meridian-1 (LIGHT-LAG)</title>
+  <link rel="icon" href="data:," />
+  <style>
+    @font-face { font-family: "Jost"; src: url(/shared/fonts/jost-latin-400-normal.woff2) format("woff2"); font-weight: 400; }
+    @font-face { font-family: "Jost"; src: url(/shared/fonts/jost-latin-500-normal.woff2) format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Jost"; src: url(/shared/fonts/jost-latin-600-normal.woff2) format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Plex Mono"; src: url(/shared/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2"); font-weight: 400; }
+    :root { --ink: #16202c; --ink-2: #4a5768; --rule: #c9d1db; --accent: #1f5f8b; --warm: #8a5a12; --bad: #a3261b; --good: #2f6b28; --paper: #fbfaf7; }
+    * { box-sizing: border-box; }
+    html { background: #2a3442; }
+    body { margin: 0; font: 400 12.5px/1.45 "Jost", system-ui, sans-serif; color: var(--ink); }
+    .tools { display: flex; gap: 12px; align-items: center; justify-content: center; padding: 12px; color: #dce7ef; font-size: 13px; flex-wrap: wrap; }
+    .tools button { font: 500 13px "Jost", sans-serif; padding: 8px 14px; border-radius: 6px; border: 1px solid #86d0f5; background: #86d0f5; color: #06121c; cursor: pointer; }
+    .tools a { color: #86d0f5; }
+    .page { width: 8.5in; min-height: 11in; margin: 0 auto 24px; background: var(--paper); padding: 0.45in 0.5in; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+    header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid var(--ink); padding-bottom: 8px; margin-bottom: 10px; gap: 12px; }
+    .kicker { font: 600 11px "Jost"; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+    h1 { font: 600 30px/1 "Jost"; margin: 2px 0 0; letter-spacing: -.01em; }
+    .tag { font: italic 400 13px "Jost"; color: var(--ink-2); margin-top: 4px; }
+    .state { text-align: right; font-size: 11px; color: var(--ink-2); }
+    .state b { display: block; font: 600 13px "Jost"; color: var(--ink); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; }
+    section { break-inside: avoid; }
+    h2 { font: 600 11px "Jost"; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 8px 0 4px; border-bottom: 1px solid var(--rule); padding-bottom: 2px; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 2px 0; vertical-align: baseline; border-bottom: 1px dotted var(--rule); }
+    td:first-child { color: var(--ink-2); padding-right: 10px; }
+    td.v { text-align: right; font-family: "Plex Mono", ui-monospace, monospace; font-size: 11.5px; }
+    td.t { text-align: right; }
+    tr:last-child td { border-bottom: 0; }
+    .m { display: inline-block; font: 500 8.5px/1 "Plex Mono", monospace; letter-spacing: .05em; border: 1px solid #98a4b3; color: var(--ink-2); border-radius: 2px; padding: 1px 3px; margin-left: 4px; vertical-align: 1px; }
+    .band { font: 600 10px "Jost"; letter-spacing: .06em; text-transform: uppercase; }
+    .green, .pass { color: var(--good); } .yellow, .lien { color: var(--warm); } .red, .fail { color: var(--bad); }
+    ul { margin: 2px 0; padding-left: 16px; } li { margin: 1px 0; }
+    .wide { grid-column: 1 / -1; }
+    .sources ol { columns: 2; column-gap: 22px; font-size: 9.5px; color: var(--ink-2); padding-left: 16px; margin: 0; }
+    .sources li { break-inside: avoid; } .sources a { color: var(--ink-2); text-decoration: none; word-break: break-all; }
+    .foot { margin-top: 8px; font-size: 9.5px; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 4px; display: flex; justify-content: space-between; gap: 12px; }
+    .muted { color: var(--ink-2); }
+    @media (max-width: 860px) {
+      .page { width: auto; min-height: 0; margin: 0 0 16px; padding: 18px 16px; box-shadow: none; }
+      .grid { grid-template-columns: 1fr; } header { flex-direction: column; align-items: flex-start; } .state { text-align: left; }
+      .sources ol { columns: 1; } h1 { font-size: 26px; }
+    }
+    @page { size: letter; margin: 0.32in 0.36in; }
+    @media print {
+      html, body { background: #fff; }
+      .tools { display: none; }
+      .page { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; background: #fff; font-size: 9.4px; line-height: 1.32; }
+      header { padding-bottom: 5px; margin-bottom: 4px; } h1 { font-size: 22px; } .tag { font-size: 10px; margin-top: 2px; }
+      .grid { grid-template-columns: 1fr 1fr 1fr; gap: 2px 14px; } .wide { grid-column: 1 / -1; } .half { grid-column: span 1; }
+      .rv-lead { display: none; } .liens-print li { font-size: 8.4px; }
+      .rv.wide { grid-column: span 2; } .oc.wide { grid-column: span 1; } .sources { break-inside: auto; } h2 { margin: 4px 0 2px; font-size: 9px; } td { padding: 0.5px 0; } td.v { font-size: 8.8px; }
+      .m { font-size: 7px; padding: 0 2px; } ul { margin: 1px 0; } .note-s { font-size: 8px !important; }
+      .sources ol { columns: 3; column-gap: 14px; font-size: 6.8px; line-height: 1.25; } .sources a { word-break: break-all; }
+      .foot { font-size: 7.5px; margin-top: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="tools"><button id="print">Print or save as PDF</button><span id="note">Loading.</span><a href="/">Back to the game</a></div>
+  <main class="page" id="page" aria-live="polite"><p class="muted">Loading the mission.</p></main>
+  <script type="module">
+    const $ = (s) => document.querySelector(s);
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const M = '<span class="m" title="MODEL: an assumption made for the game, not a measured or published value">MODEL</span>';
+    const n = (v, d = 1) => (v === null || v === undefined || !isFinite(v) ? '–' : Number(v).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }));
+    const pct = (m) => `${Math.round(m * 100)}%`;
+    const day = (iso) => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+    const row = (k, v, cls = 'v') => `<tr><td>${k}</td><td class="${cls}">${v}</td></tr>`;
+    $('#print').onclick = () => print();
+    const STATE = { design: 'Designed, not yet flown', flight: 'In flight', debrief: 'Designed and flown' };
+    async function load() {
+      const f = await (await fetch('/api/factsheet' + location.search)).json();
+      const b = f.budgets || {}, p = f.power, r = f.radio, t = f.trajectory, L = f.launch, sh = f.shielding, o = f.outcome, rv = f.review;
+      const bandRow = (k) => b[k] ? `<tr><td>${esc(b[k].label)}${b[k].model ? M : ''}</td><td class="v">${n(b[k].value, k === 'mass' || k === 'cost' ? 0 : 1)} of ${n(b[k].limit, k === 'mass' || k === 'cost' ? 0 : 1)} ${esc(b[k].unit)}</td><td class="v">${pct(b[k].margin)}</td><td class="t"><span class="band ${b[k].band}">${b[k].band}</span></td></tr>` : '';
+      $('#page').innerHTML = `
+        <header><div><div class="kicker">Mission fact sheet</div><h1>${esc(f.mission)}</h1>
+          <div class="tag">${esc(f.tagline)} Designed by team ${esc(f.team)} in LIGHT-LAG, a game set in the real 2020 Earth-Mars window.</div></div>
+          <div class="state"><b>${STATE[f.state] || f.state}</b>${rv ? `Review: <span class="${rv.verdict}">${esc(rv.verdict_text)}</span>` : 'Not yet reviewed'}</div></header>
+        <div class="grid">
+          <section><h2>Mission</h2><table>
+            ${row('Objective', esc(f.objective.name) + M, 't')}
+            ${row('Science needed', `${n(f.objective.need_gbit, 0)} Gbit${M}`)}
+            ${row('Launch', day(t.launch), 't')}${row('Mars arrival', day(t.arrival), 't')}
+            ${row('Time of flight', `${n(t.tof_days, 0)} days`)}${row('Launch energy C3', `${n(t.c3, 1)} km²/s²`)}${row('Total delta-v', `${n(t.dv_total, 2)} km/s`)}</table>
+            <p class="muted note-s" style="margin:2px 0 0;font-size:10px">${esc(t.note)}</p></section>
+          <section><h2>Launch</h2><table>
+            ${row('Vehicle', esc(L.vehicle), 't')}${row('Campaign', esc(L.campaign), 't')}${row('Mass in low Earth orbit', `${n(L.imleo_t, 1)} t${M}`)}</table>
+            <h2>Crew of four</h2><table>${f.crew.map((c) => row(esc(c.role), esc(c.name), 't')).join('')}</table></section>
+          <section><h2>Power at Mars (1.524 AU)</h2><table>
+            ${row('Solar array', `${esc(p.array)}, ${n(p.array_kw_1au, 1)} kW at Earth${M}`, 't')}${row('Battery', `${esc(p.battery)}`, 't')}
+            ${row('Supply and load', `${n(p.supply_kw, 1)} / ${n(p.load_kw, 1)} kW`)}${row('Margin', pct(p.margin))}
+            ${row('One string lost, payload shed', `${n(p.degraded_kw, 1)} kW for ${n(p.essential_kw, 1)} kW${M}`)}</table></section>
+          <section><h2>Radio and data</h2><table>
+            ${row('Deep Space Network plan', `${esc(r.plan)}, ${n(r.hours, 0)} h a day`, 't')}${row('Capacity home', `${n(r.capacity_gbit_day, 1)} Gbit/day${M}`)}
+            ${row('Payload makes', `${n(r.demand_gbit_day, 1)} Gbit/day${M}`)}${row('Expected home over the stay', `${n(r.returned_gbit, 0)} Gbit${M}`)}
+            ${row('Solar conjunction', `${n(r.dark_days, 0)} dark days`)}${row('Recorder', `${n(r.recorder_gbit, 0)} Gbit (MRO class)`)}</table></section>
+          <section><h2>Crew protection</h2><table>
+            ${row('Storm shelter water', `${n(sh.shelter_gcm2, 0)} g/cm²`)}${row('Hull liner', `${n(sh.hull_liner_gcm2, 0)} g/cm²`)}
+            ${row('Shelter lets through', `${pct(sh.sep_factor_shelter)} of storm dose${M}`)}${row('Own flare monitor', sh.solar_monitor ? 'Yes' : 'No', 't')}</table></section>
+          <section><h2>Budgets</h2><table>${['mass', 'power', 'data', 'cost'].map(bandRow).join('')}</table>
+            <p class="muted note-s" style="margin:2px 0 0;font-size:10px">Green at 10% margin or more, yellow 0 to 10%, red below zero${M}.</p></section>
+          <section class="wide"><h2>Science payload, with flight heritage</h2><table>
+            ${f.payload.map((i) => `<tr><td>${esc(i.name)}</td><td>${esc(i.heritage)}</td><td class="v">${n(i.mass_kg, 1)} kg</td><td class="v">${n(i.power_w, 0)} W</td><td class="v">${n(i.data_mbit_day / 1000, 1)} Gbit/day${(i.model || []).includes('data_mbit_day') ? M : ''}</td></tr>`).join('') || row('None', '')}</table></section>
+          <section class="wide rv"><h2>Flight Readiness Review</h2>${rv ? `
+            <table>${rv.areas.map((a) => `<tr><td>${esc(a.title)}</td><td class="rv-lead">${esc(a.lead.text)}</td><td class="t"><span class="band ${a.verdict}">${esc(a.verdict_text)}</span></td></tr>`).join('')}</table>
+            ${rv.liens.length ? `<p style="margin:4px 0 0"><b>Liens carried into flight:</b></p><ul class="liens-print">${rv.liens.map((x) => `<li><b>${esc(x.area)}.</b> ${esc(x.text)}</li>`).join('')}</ul>` : ''}`
+            : '<p class="muted">The board reviews the design when every seat says go.</p>'}</section>
+          ${o ? `<section class="wide oc"><h2>Outcome</h2><table>
+            ${row('Days flown', n(o.days, 0))}${row('Crew dose, total', `${n(o.dose_total_msv, 1)} mSv`)}${row('Cosmic rays (career limit 600)', `${n(o.gcr_dose_msv, 1)} mSv`)}
+            ${row('Storm (limit 250 per event)', `${n(o.storm_dose_msv, 1)} mSv, ${esc(o.storm_grade)}`)}
+            ${row('Science delivered', `${n(o.science_delivered_gbit, 1)} Gbit`)}${row('For the objective', `${n(o.science_relevant_gbit, 1)} Gbit, ${o.objective_met ? 'met' : 'missed'}`)}
+            ${row('Objectives', `${n(o.objectives_pct, 0)}%`)}${row('TERN decisions, rule breaks', `${o.tern_decisions}, ${o.policy_breaks}`)}
+            ${row('Liens that came true', o.liens_true.length ? esc(o.liens_true.join(', ')) : 'None', 't')}</table></section>` : ''}
+          <section class="wide sources"><h2>Sources</h2><ol>${f.sources.map((s) => `<li>${esc(s.title)}${s.publisher ? `, ${esc(s.publisher)}` : ''}. <a href="${esc(s.url)}">${esc(s.url)}</a></li>`).join('')}</ol>
+            <p class="muted" style="margin:4px 0 0;font-size:9.5px">${M} ${esc(f.model_note)}</p></section>
+        </div>
+        <div class="foot"><span>Meridian-1 is a fictional crewed mission. No agency logos, insignia or mission identifiers.</span><span>LIGHT-LAG, NASA Space Apps 2026</span></div>`;
+      $('#note').textContent = `${STATE[f.state] || f.state}. One Letter page.`;
+    }
+    load().catch(() => { $('#page').innerHTML = '<p>Could not reach the game server.</p>'; });
+  </script>
+</body>
+</html>

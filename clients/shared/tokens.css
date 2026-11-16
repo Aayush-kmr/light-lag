@@ -1,0 +1,46 @@
+/* LIGHT-LAG · one instrument system, two rooms. Fonts: B612 / B612 Mono,
+   Copyright The B612 Project Authors, SIL OFL 1.1 (licenses in fonts/). */
+@font-face { font-family: B612; src: url('/shared/fonts/B612-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'B612 Mono'; src: url('/shared/fonts/B612Mono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+
+:root {
+  color-scheme: dark;
+  --night: #171815;
+  --screen: #10120f;
+  --console: #22231f;
+  --console-2: #2c2d28;
+  --rule: #393b34;
+  --rule-2: #55574e;
+  --phosphor: #eeeee6;
+  --haze: #c4c5ba;
+  --dim: #a4a69b;
+  --signal: #b3c9cf;
+  --lantern: #e8b969;
+  --alarm: #f1877f;
+  --go: #a2c69a;
+  --paper: #eee5d3;
+  --paper-ink: #29251f;
+  --paper-ink-2: #675b49;
+  --ui: B612, system-ui, sans-serif;
+  --num: 'B612 Mono', ui-monospace, monospace;
+  --letter: Newsreader, Georgia, serif;
+  --t-xs: 12px; --t-s: 13px; --t-m: 14px; --t-l: 18px;
+  --t-xl: 24px; --t-2xl: 32px; --t-3xl: 48px;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-8: 32px;
+  --row-h: 36px; --r: 4px;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --feedback: 160ms; --entrance: 320ms;
+}
+.ship-page, .theme-ship {
+  --night: #16191c;
+  --screen: #0e1114;
+  --console: #20252a;
+  --console-2: #2a3137;
+  --rule: #374149;
+  --rule-2: #525f69;
+  --phosphor: #e9edf0;
+  --haze: #bdc6cd;
+  --dim: #a0adb7;
+  --signal: #acc6d6;
+}

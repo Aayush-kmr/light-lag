@@ -1,0 +1,170 @@
+# Meridian-1 - the 2020 window.
+#
+# Alternate history: a crew of four launched in the same Earth-Mars window
+# as Perseverance (launched 2020-07-30, landed 2021-02-18). Every light-time,
+# every DSN pass and the October 2021 solar conjunction are computed from
+# the real ephemeris for these real dates. The Act II storm is a replay of a
+# real solar event (see `storm`), clearly labelled in the UI.
+id: meridian_2020
+title: "Meridian-1 / the 2020 window"
+subtitle: "Every delay and every silence in this game happened. Perseverance flew these same days."
+home_tz: "America/Chicago"           # Houston: Lantern Control and the Reyes family
+
+design:
+  launch_window: ["2020-06-20", "2020-09-10"]
+  arrival_window: ["2020-12-20", "2021-08-31"]
+  grid: [44, 44]
+  default_launch: "2020-07-30T12:00:00"
+  default_arrival: "2021-02-18T20:00:00"
+  comms_plan: "standard"
+  shelter_gcm2: 20
+  hull_liner_gcm2: 0
+  solar_monitor: true
+  # Design bay (ids from data/catalog/): objective and payload are the Mission
+  # Scientist's, the rocket is Flight's, the power hardware the Flight Engineer's.
+  objective: "ice"
+  payload: ["grs_class", "ctx_class", "rad_class"]
+  vehicle: "falcon_heavy_exp"
+  array: "array_std"
+  battery: "batt_60"
+  # Habitat, shelter area, crew and consumables come from data/catalog/crew.yaml.
+  # stay_days: planned days in Mars orbit after arrival (through the 2021 conjunction).
+  # The mass limit is the launch campaign (sim/design.py), not a fixed tonnage.
+  mass_model: { isp_s: 380, stay_days: 260 }
+  judge_wall_s: 45
+
+storm:
+  event: "2017-09-10-X8.2"
+  at_utc: "2020-11-29T15:35:00"      # flare light reaches Earth at this in-game time
+  label: "REPLAY of SOL2017-09-10 (X8.2, AR 12673), placed on 2020-11-29"
+
+mission_end_after_blackout_days: 20
+
+scenes:
+  # ======================================================== ACT I - CLOSE
+  - id: s1
+    act: 1
+    act_title: "Close"
+    title: "Day 1 / Go for cruise"
+    card: "Twenty-six hours after trans-Mars injection. Earth is a bright disc behind you. The delay is barely a second."
+    start: { anchor: launch, offset_h: 26 }
+    duration_s: 1500
+    judge_wall_s: 40
+    objectives:
+      - { id: comm_check, side: control, text: "Run a comm check with Meridian." }
+      - { id: readback, side: ship, text: "Read back Lantern's instruction." }
+      - { id: hga_point, side: ship, text: "Fix the antenna drift (Antenna panel)." }
+    faults:
+      - { at_s: 150, name: hga_drift, severity: 0.5 }
+    cues:
+      - { at_s: 6, side: control, action: send_text, unless: comm_check,
+          text: "Meridian, Lantern. Comm check. Configure high-gain for Earth track and set the gimbal brake. How copy? Over." }
+      - { at_s: 30, side: ship, action: send_text, unless: readback,
+          text: "Lantern, Meridian. Loud and clear. Copy high-gain Earth track, gimbal brake set. Over." }
+      - { at_s: 420, side: ship, action: ship_action, name: hga_lock, unless: hga_point }
+
+  - id: s2
+    act: 1
+    title: "Day 5 / The last live goodnight"
+    card: "Five days out. Houston, eight o'clock. Six seconds each way now: twelve between a question and its answer."
+    start: { anchor: launch, day: 5, local: "19:58" }
+    duration_s: 900
+    judge_wall_s: 30
+    objectives:
+      - { id: goodnight_live, side: ship, text: "Say goodnight to Lila." }
+
+  # ======================================================== ACT II - THE GAP
+  - id: s3
+    act: 2
+    act_title: "The Gap"
+    title: "Day 62 / Letters"
+    card: "Two months out. A goodnight and its answer can no longer share a breath."
+    start: { anchor: launch, day: 62, local: "19:58" }
+    duration_s: 900
+    judge_wall_s: 25
+    objectives:
+      - { id: answer_lila, side: ship, text: "Answer Lila." }
+
+  - id: s4
+    act: 2
+    title: "Day 98 / Waiting up"
+    card: "Three months out. Messages take minutes each way."
+    start: { anchor: launch, day: 98, local: "19:40" }
+    duration_s: 2700
+    judge_wall_s: 30
+    objectives:
+      - { id: pump_fixed, side: ship, text: "Coolant loop A is running hot. Deal with it." }
+      - { id: answer_lila, side: ship, text: "Answer Lila before she falls asleep." }
+    faults:
+      - { at_s: 700, name: pump_a_degradation, severity: 1.0 }
+    cues:
+      - { at_s: 1500, side: ship, action: ship_action, name: pump_switch, unless: pump_fixed }
+
+  - id: s5
+    act: 2
+    title: "Day 122 / The storm"
+    card: "A Sunday in late November. Lantern is watching the Sun. Meridian is four light-minutes away."
+    start: { anchor: storm, offset_min: -12 }
+    duration_s: 16200
+    judge_wall_s: 100
+    warp: [ { after: storm_peak, factor: 8 } ]
+    objectives:
+      - { id: storm_warning, side: control, text: "Warn Meridian as soon as you see the flare." }
+      - { id: shelter, side: ship, text: "Get into the storm shelter before the protons arrive." }
+      - { id: family_answered, side: control, text: "Answer Theo Reyes." }
+    cues:
+      - { after: flare_earth, delay_s: 15, side: control, action: dsn_surge, hours: 6 }
+      - { after: flare_earth, delay_s: 25, side: control, action: send_alert, unless: storm_warning,
+          text: "Meridian, Lantern. X-class flare in progress, west limb. Proton storm expected. Recommend you go to shelter now. Over." }
+      - { after: warning_arrived_or_onset, delay_s: 20, side: ship, action: ship_action, name: shelter_enter, unless: shelter }
+      - { after: theo_to_lantern, delay_s: 40, side: control, action: send_family, unless: family_answered,
+          text: "Theo, this is Lantern. She's in the shelter and we're tracking her dose. We hear from her every few minutes. We'll call you." }
+
+  # ======================================================== ACT III - CONJUNCTION
+  - id: s6
+    act: 3
+    act_title: "Conjunction"
+    title: "Day 425 / The last command window"
+    card: "Mars orbit. The Sun is sliding between Mars and Earth. In one hour Lantern stops commanding for almost three weeks."
+    start: { anchor: moratorium_start, offset_h: -1.0 }
+    duration_s: 4200
+    judge_wall_s: 40
+    objectives:
+      - { id: policy_signed, side: both, text: "Get TERN's final autonomy policy aboard before the moratorium. Lantern uplinks, the Commander countersigns." }
+      - { id: control_letter, side: control, text: "Record something for Imani to hear after the silence." }
+      - { id: explain_lila, side: ship, text: "Tell Lila what's about to happen." }
+    cues:
+      - { at_s: 120, side: control, action: dsn_surge, hours: 2 }
+      - { at_s: 240, side: control, action: sign_policy, unless: policy_signed }
+      - { at_s: 1800, side: ship, action: sign_policy, unless: policy_signed }
+      - { at_s: 900, side: control, action: send_text, unless: control_letter, priority: normal,
+          text: "Imani, it's Lantern. We'll be right here. Every pass, every day, we'll be listening. See you on the other side. Over." }
+
+  - id: s7
+    act: 3
+    title: "Conjunction / The silence"
+    card: "The Sun is between you. For eleven days nothing gets through."
+    start: { anchor: blackout_start, offset_s: 1 }
+    end: { anchor: blackout_end, offset_s: -1 }
+    wall_s: 150
+    judge_wall_s: 60
+    audio: silence
+    faults:
+      - { at_day: 2.6, name: array_string_loss, severity: 1.0 }
+      - { at_day: 6.4, name: scrubber_valve_stuck, severity: 1.0 }
+    objectives:
+      - { id: scrubber_fixed, side: ship, text: "When TERN calls you, fix the scrubber by hand." }
+    cues:
+      - { after: crew_called, delay_s: 900, side: ship, action: ship_action, name: scrubber_swap_bed, unless: scrubber_fixed }
+
+  - id: s8
+    act: 3
+    title: "Conjunction / The flood"
+    card: "The Sun has moved. Lantern has been holding everything."
+    start: { anchor: blackout_end, offset_s: 0 }
+    duration_s: 3600
+    judge_wall_s: 80
+    objectives:
+      - { id: letters_played, side: ship, text: "Listen to the messages, in whatever order you choose." }
+    cues:
+      - { after: flood_arrived, delay_s: 1500, side: ship, action: play_all_letters, unless: letters_played }   # ~30 s of wall time in Judge Mode to choose the order

@@ -1,0 +1,266 @@
+/* Operational layout. All controls stay in the document; the room is layout. */
+.control-page, .ship-page { min-height: 100vh; height: auto; overflow: auto; }
+.mission-head { background: var(--console); border-bottom: 1px solid var(--rule); }
+.topbar { min-height: 64px; background: var(--console); }
+.topbar .brand { min-width: 232px; padding: 12px 24px; gap: 12px; font-weight: 400; }
+.topbar a.brand { text-decoration: none; color: inherit; }
+.brand-word { display: grid; gap: 4px; font-size: 16px; }
+.brand-word small { font: 400 12px/1.2 var(--ui); color: var(--dim); }
+.topbar .brand i, .topbar .brand.ship i { width: 12px; height: 12px; border: 1px solid var(--haze); border-radius: 2px; background: transparent; box-shadow: none; }
+.topbar .cell { padding: 12px 20px; }
+.topbar .cell .v { font-weight: 400; font-size: 14px; }
+.head-actions { padding: 8px 16px; gap: 4px; }
+.seat-indicator { font-size: 12px; color: var(--signal); padding: 8px 12px; white-space: nowrap; }
+.coach { min-height: 48px; gap: 12px; padding: 12px 24px; background: var(--night); }
+.coach .mark { width: 4px; height: 16px; border-radius: 0; background: var(--signal); animation: none; box-shadow: none; }
+.coach .what { font-size: 13px; font-weight: 400; }
+.coach .how { font-size: 12px; }
+.coach.urgent { background: var(--console); }
+.coach .where { font-family: var(--num); font-size: 12px; }
+.hint-target { outline: 1px solid var(--signal); outline-offset: 4px; animation: none; }
+.mission-main { max-width: 1920px; margin: 0 auto; padding: 20px 24px 0; }
+.room-label { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 12px; color: var(--dim); font-size: 12px; }
+.room-label .room-name { color: var(--haze); }
+.frontwall { display: grid; grid-template-columns: minmax(244px, 1fr) minmax(440px, 2.3fr) minmax(244px, 1fr); gap: 12px; min-height: 360px; }
+.wall-screen { background: var(--screen); border: 1px solid var(--rule); border-radius: 6px; min-width: 0; padding: 16px; display: flex; flex-direction: column; }
+.wall-screen > header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.wall-screen h2 { font-size: 13px; flex: 1; }
+.source-tag { font: 400 11px/1.2 var(--num); padding: 4px 6px; border: 1px solid var(--rule-2); border-radius: 2px; color: var(--dim); white-space: nowrap; }
+.source-age { color: var(--dim); font: 400 11px/1.5 var(--num); }
+.dsn-complex { font-size: 24px; line-height: 1.3; margin: 0 0 4px; }
+.dsn-state { color: var(--haze); min-height: 32px; font-size: 12px; }
+.wall-readouts { display: grid; grid-template-columns: 1fr auto; margin: 8px 0 16px; font-size: 12px; }
+.wall-readouts dt, .wall-readouts dd { margin: 0; min-height: 32px; border-bottom: 1px solid var(--rule); display: flex; align-items: center; }
+.wall-readouts dt { color: var(--dim); }
+.wall-readouts dd { justify-content: flex-end; font-family: var(--num); padding-left: 8px; }
+.wall-screen .source-age { margin-top: auto; padding-top: 12px; }
+.wall-screen .passes { margin: 4px 0 12px; }
+.wall-screen .prow { grid-template-columns: 72px minmax(0, 1fr); font-size: 11px; gap: 8px; }
+.wall-screen .pname .small { display: none; }
+.wall-screen .prow.axis { font-size: 10px; }
+.wall-screen #passes > p { display: none; }
+.wall-plot { padding: 16px 20px 12px; }
+.wall-plot > header { margin-bottom: 0; }
+.plot-view { flex: 1; min-height: 236px; position: relative; }
+.plot-view > canvas { width: 100%; height: 100%; position: absolute; inset: 0; }
+.plot-facts { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 12px; }
+.plot-facts strong { font: 400 20px/1.2 var(--num); color: var(--phosphor); }
+.plot-caption { font-size: 11px; color: var(--dim); padding-top: 8px; }
+.wall-weather #sw { flex: 1; max-height: 244px; }
+.wall-weather .msg { background: transparent; padding: 8px 0 8px 12px; font-size: 12px; }
+.wall-weather .empty { font-size: 13px; line-height: 1.7; max-width: 28ch; padding-top: 12px; }
+.wall-weather .weather-note { font-size: 11px; color: var(--dim); padding: 12px 0 0; }
+.signal-strip { display: grid; grid-template-columns: 196px minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: 12px 0 20px; }
+.signal-strip .lt { font-size: 11px; color: var(--dim); }
+.signal-strip .lt strong { display: block; font: 400 18px/1.4 var(--num); color: var(--phosphor); }
+.signal-strip canvas { height: 60px; }
+.signal-strip .seg button { font-size: 11px; }
+.station-row { display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.control-page[data-seat='scientist'] .station-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.42fr); }
+.station { background: var(--console); border: 1px solid var(--rule); border-radius: 6px; min-width: 0; }
+.station > .station-head { margin: 0; padding: 16px 20px; border-bottom: 1px solid var(--rule); display: flex; gap: 12px; align-items: center; }
+.station-head .station-index { font: 400 12px/1 var(--num); color: var(--dim); }
+.station-head h2 { flex: 1; font-size: 15px; }
+.station-head .station-state { font-size: 11px; color: var(--dim); }
+.station.is-active { border-top: 2px solid var(--signal); }
+.station.is-active .station-state { color: var(--signal); }
+.station:not(.is-active) { background: var(--night); }
+.flight-desk { display: grid; grid-template-columns: minmax(224px, .85fr) minmax(0, 1fr); gap: 0; }
+.flight-readings { padding: 16px; border-right: 1px solid var(--rule); min-width: 0; }
+.flight-readings > header, .radio-desk > header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.flight-readings h3, .radio-desk h3 { flex: 1; color: var(--haze); }
+.flight-readings .asof { display: grid; gap: 8px; }
+.flight-readings .tgrid { gap: 12px; }
+.flight-readings .tgroup { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.flight-readings .tgroup h3 { margin-bottom: 8px; font-size: 12px; }
+.flight-readings .readout .v { font-size: 15px; }
+.flight-readings table.kv { font-size: 11px; }
+.flight-readings table.kv td { min-height: 32px; padding: 8px 0; }
+.flight-readings details { margin-top: 12px; }
+.flight-readings details summary { cursor: pointer; color: var(--dim); font-size: 12px; }
+.radio-desk { padding: 16px; min-width: 0; display: grid; gap: 16px; align-content: start; }
+.radio-desk #inbox { max-height: 200px; min-height: 64px; }
+.radio-desk #queue { max-height: 128px; }
+.radio-desk .family { padding-top: 12px; margin-top: 0; }
+.radio-desk textarea { min-height: 80px; }
+.radio-desk .msg { font-size: 12px; }
+.link-settings { display: grid; gap: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.link-settings label { display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: 12px; color: var(--dim); }
+.station-tools { padding: 0 20px 20px; }
+.station-tools .tabs { margin: 0 -20px 16px; padding: 0 12px; position: static; flex-wrap: wrap; background: transparent; }
+.station-tools .tabs button { padding: 12px 8px; font-size: 12px; }
+.station-tools .stack { gap: 16px; }
+#crew-log, #ternlog, #fido-log, #tern-log, #crew-said { max-height: 280px; overflow: auto; }
+.station-tools .kv { font-size: 12px; }
+.station-tools .kv td { height: 36px; }
+.data-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+.data-table th { color: var(--dim); font-weight: 400; text-align: left; border-bottom: 1px solid var(--rule-2); height: 32px; }
+.data-table td { border-bottom: 1px solid var(--rule); height: 36px; padding: 8px 4px 8px 0; }
+.data-table .number { font-family: var(--num); text-align: right; }
+.source-line { display: flex; align-items: center; gap: 8px; color: var(--dim); font-size: 11px; flex-wrap: wrap; }
+.station-tools .crew-line { padding: 12px 0; }
+.ctl-foot { background: var(--night); padding: 12px 24px; display: flex; gap: 12px; border-top: 0; margin-top: 12px; }
+
+/* Ship: one bounded viewport and two close, independent workstations. */
+.ship-deck { max-width: 1680px; margin: 0 auto; padding: 20px 24px; display: grid; gap: 16px; grid-template-columns: minmax(0, 1.35fr) minmax(380px, 1fr); align-items: start; }
+.ship-left { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.cabin-window { grid-area: window; position: relative; border: 1px solid var(--rule-2); border-radius: 8px; padding: 12px; background: var(--console); }
+.window-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; color: var(--haze); padding: 0 4px 12px; font-size: 12px; }
+.window-head .grow { color: var(--dim); }
+.window-head h2 { font-size: 13px; }
+.ship-page .stage { position: relative; inset: auto; height: clamp(256px, 34vh, 400px); background: #030405; border-radius: 4px; overflow: hidden; }
+.viewbar { position: static; padding: 12px 0 0; gap: 8px; display: flex; flex-wrap: wrap; }
+.viewbar .seg { background: var(--night); backdrop-filter: none; }
+.viewbar .seg button { font-size: 12px; padding: 8px 12px; }
+.viewbar .view-note { color: var(--dim); font-size: 11px; margin-left: auto; }
+.commander-station { grid-area: commander; }
+.ship-page .side { grid-area: auto; position: static; width: auto; background: var(--console); backdrop-filter: none; border: 1px solid var(--rule); min-width: 0; }
+.ship-page .side.is-active { border-top: 2px solid var(--signal); }
+.side-tabs { flex-wrap: wrap; padding: 0 12px; }
+.side-tabs button { padding: 12px 8px; min-width: 64px; font-size: 12px; }
+.ship-page .side .pane { padding: 20px; gap: 16px; overflow: visible; }
+.ship-page .side .dock { padding: 16px 20px; }
+.ship-page .side #inbox { max-height: 340px; overflow: auto; min-height: 128px; }
+.side .foot-links { padding: 12px; border-top: 1px solid var(--rule); }
+.sys { padding: 16px 0; gap: 12px; }
+.sys .readouts { gap: 24px; }
+.sys .acts button { padding: 8px 12px; font-size: 12px; }
+.safety-console { padding: 16px 20px; }
+.safety-readouts { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 20px; padding-bottom: 16px; }
+.safety-readouts .k { color: var(--dim); font-size: 12px; display: block; padding-bottom: 4px; }
+.safety-console > .source-line { margin-bottom: 16px; }
+.safety-readouts .v { font: 400 24px/1.3 var(--num); }
+.safety-readouts .u { font-size: 12px; color: var(--dim); }
+.safety-console .status { position: static; pointer-events: auto; padding-bottom: 12px; }
+.status:empty { display: none; }
+.chip { background: var(--night); backdrop-filter: none; border-radius: 4px; padding: 8px 12px; }
+.bridge-crew { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; border-top: 1px solid var(--rule); padding-top: 8px; }
+.bridge-person { display: flex; gap: 8px; justify-content: space-between; font-size: 12px; padding: 8px 0; }
+.bridge-person .task { color: var(--dim); text-align: right; }
+.ship-page .letters { position: static; width: auto; gap: 8px; padding-top: 16px; max-height: 320px; overflow: auto; }
+.ship-page .letters.flood { transform: none; width: auto; position: static; top: auto; left: auto; padding: 16px; max-height: 380px; background: var(--night); border-radius: 4px; }
+.ship-page .letters.flood .envelope { transform: none; }
+.ship-page .letters h2, .ship-page .letters p { text-shadow: none; }
+.ship-page .prompt { position: static; transform: none; width: auto; padding-top: 16px; }
+.ship-page .prompt .paper { box-shadow: none; }
+.ship-page .card { left: 24px; top: 132px; transform: none; width: min(560px, calc(100vw - 48px)); text-align: left; background: var(--console); border: 1px solid var(--rule-2); padding: 24px; border-radius: 6px; }
+.control-page .card { left: 24px; top: 132px; transform: none; width: min(560px, calc(100vw - 48px)); text-align: left; background: var(--console); border: 1px solid var(--rule-2); padding: 24px; border-radius: 6px; }
+.card h1, .card p { text-shadow: none; }
+.card h1 { font-size: 32px; }
+.card p { font-size: 14px; }
+.ship-page .crew-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ship-page .crew-card .cstat { grid-template-columns: 76px 1fr; }
+.ship-page .crew-card .cstat .w { grid-column: 2; }
+
+/* Design review: a board and its working papers, not a wall of meters. */
+#design { position: fixed; inset: 0; z-index: 60; overflow: auto; }
+body.design-phase:not(.immersive-mode) > :not(#design):not(.room-dashboard-return) { display: none !important; }
+.design { grid-template-columns: 216px minmax(0, 1fr) 420px; }
+.design .steps { padding: 24px 16px; }
+.design .steps li button { padding: 12px 8px; border-radius: 4px; }
+.design .steps .n { border-radius: 2px; border-color: var(--rule-2); }
+.design .steps li.mine .n { border-color: var(--rule-2); color: var(--haze); }
+.design .steps li.on .n { color: var(--signal); border-color: var(--signal); }
+.design .step-main { padding: 32px; gap: 24px; max-width: none; }
+.design .step-head h1 { font-size: 28px; letter-spacing: 0; }
+.design .summary.board { padding: 24px 20px; gap: 20px; }
+.design .summary.board > * { flex-shrink: 0; }
+.trip .arrow { background: var(--rule-2); margin-bottom: 8px; }
+.review-wrap { overflow-x: auto; }
+.budget-review { border-collapse: collapse; width: 100%; font-size: 11px; }
+.budget-review caption { text-align: left; margin-bottom: 12px; color: var(--dim); line-height: 1.6; }
+.budget-review th { font-weight: 400; color: var(--dim); text-align: right; padding: 8px 4px; border-bottom: 1px solid var(--rule-2); }
+.budget-review th:first-child, .budget-review td:first-child { text-align: left; }
+.budget-review td { text-align: right; font-family: var(--num); border-bottom: 1px solid var(--rule); padding: 12px 4px; white-space: nowrap; }
+.budget-review td:first-child { font-family: var(--ui); white-space: normal; }
+.budget-review .band { display: block; color: var(--dim); font-size: 11px; margin-top: 4px; }
+.budget-review .green .band { color: var(--go); }
+.budget-review .yellow .band { color: var(--lantern); }
+.budget-review .red .band { color: var(--alarm); }
+.design .dcards { gap: 12px; }
+.design .dcard { padding: 16px; gap: 8px; }
+.design .dcard.on { border-color: var(--signal); box-shadow: none; background: var(--console-2); }
+.model-tag { font-size: 11px; letter-spacing: 0; padding: 4px; vertical-align: baseline; color: var(--dim); }
+.design .summary details.lines table.kv td { padding: 8px 0; font-size: 11px; }
+
+/* After-action review occupies its own working surface. */
+#drawer-aar { width: min(1120px, 100vw); padding: 32px; box-shadow: none; border-left: 1px solid var(--rule-2); }
+.debrief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.debrief-grid > section { min-width: 0; }
+.debrief-grid .full { grid-column: 1 / -1; }
+.debrief-grid h2 { margin-bottom: 16px; }
+.debrief-grid .kv td { padding: 12px 0; }
+.debrief-summary { display: flex; gap: 24px; align-items: center; margin: 24px 0; padding: 20px 0; border-block: 1px solid var(--rule); }
+.debrief-summary .result { font: 400 36px/1 var(--num); }
+.debrief-summary p { margin: 0; color: var(--haze); }
+
+@media (min-width: 1700px) { .frontwall { min-height: 420px; } .plot-view { min-height: 300px; } }
+@media (max-width: 1250px) {
+  .frontwall { grid-template-columns: minmax(220px, 1fr) minmax(360px, 1.7fr); }
+  .wall-weather { grid-column: 1 / -1; }
+  .wall-weather #sw { max-height: 160px; }
+  .station-row, .control-page[data-seat='scientist'] .station-row { grid-template-columns: 1fr; }
+  .control-page[data-seat='scientist'] .science-station { order: -1; }
+  .design { grid-template-columns: 192px minmax(0, 1fr); height: auto; }
+  .design .summary { grid-column: 1 / -1; border-top: 1px solid var(--rule); border-left: 0; }
+  .design > * { overflow: visible; }
+  .ship-deck { grid-template-columns: minmax(0, 1.1fr) minmax(340px, 1fr); }
+  .safety-readouts { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .safety-readouts button { grid-column: 1 / -1; }
+  .ship-page .crew-cards { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .topbar { flex-wrap: wrap; overflow: visible; }
+  .topbar .brand { flex: 1 1 100%; min-width: 180px; padding: 16px; }
+  .topbar .cell { padding: 8px 12px; min-width: 0; flex: 1 1 calc(50% - 1px); border-top: 1px solid var(--rule); order: 1; }
+  .topbar .cell .v { white-space: normal; overflow-wrap: anywhere; }
+  .topbar .spacer { display: none; }
+  .head-actions { width: auto; justify-content: flex-end; order: 3; flex: 2; }
+  .seat-indicator { order: 2; flex: 1; }
+  .coach { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+  .coach .how { flex-basis: 100%; }
+  .coach .where { display: none; }
+  .mission-main { padding: 16px; }
+  .frontwall { grid-template-columns: minmax(0, 1fr); }
+  .wall-screen > header { flex-wrap: wrap; }
+  .wall-plot > header h2 { flex-basis: 100%; }
+  .wall-plot { order: -1; }
+  .wall-weather { grid-column: auto; }
+  .plot-view { min-height: 300px; }
+  .plot-facts { flex-wrap: wrap; }
+  .signal-strip { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .signal-strip .seg { justify-self: start; }
+  .signal-strip canvas { height: 72px; }
+  .flight-desk { grid-template-columns: minmax(0, 1fr); }
+  .flight-readings { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .flight-readings #tlm { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .station-tools { padding: 0 16px 16px; }
+  .station-tools .tabs { margin-inline: -16px; }
+  .rules .rule { flex-wrap: wrap; }
+  .rules .rule .seg button { padding: 8px; font-size: 12px; }
+  .ship-deck { padding: 16px; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'window' 'commander' 'engineer'; }
+  .ship-left { display: contents; }
+  .ship-page .side { grid-area: engineer; }
+  .ship-page[data-seat='engineer'] .ship-deck { grid-template-areas: 'window' 'engineer' 'commander'; }
+  .ship-page .side { height: auto; width: auto; }
+  .ship-page .side .pane { padding: 16px; }
+  .bridge-crew { grid-template-columns: 1fr; }
+  .ship-page .stage { height: 280px; }
+  .ship-page .letters.flood { grid-template-columns: 1fr; }
+  .viewbar .view-note { margin-left: 0; width: 100%; }
+  .design { grid-template-columns: 1fr; }
+  .design .steps { padding: 16px; }
+  .design .step-main { padding: 24px 16px; }
+  .design .summary.board { padding: 24px 16px; }
+  .design .steps ol { flex-direction: row; overflow-x: auto; }
+  .design .steps li button { min-width: 152px; }
+  .design .dcards.three, .design .dcards.two { grid-template-columns: 1fr; }
+  #drawer-aar { padding: 20px 16px; }
+  .debrief-grid { grid-template-columns: 1fr; gap: 24px; }
+  .debrief-grid .full { grid-column: auto; }
+  .debrief-grid .kv td.v { white-space: normal; overflow-wrap: anywhere; }
+  .ctl-foot { padding: 0 16px 16px; flex-wrap: wrap; }
+}
+
+.control-page .toasts { left: 24px; bottom: 24px; }
+@media (max-width:760px) { .control-page .toasts { left: 16px; right: 16px; max-width: none; } }

@@ -1,0 +1,55 @@
+# Launch vehicles for the assembly campaign in low Earth orbit (LEO).
+# Meridian-1 is assembled from several launches; the campaign must lift the
+# whole initial mass in LEO (IMLEO) computed by the mass model.
+#
+# leo_t: payload to LEO, metric tons. price_musd: per launch, US$ millions.
+# assembly_risk_pct: chance that one launch + docking slips the campaign.
+#   That last number is MODEL: no public per-launch figure exists for this.
+
+vehicles:
+  - id: sls_block1
+    name: "SLS Block 1"
+    operator: NASA
+    leo_t: 95.0
+    price_musd: 2200
+    assembly_risk_pct: 3
+    sources: [sls_wikipedia, oig_ig_22_003]
+    note: >
+      95 t is NASA's rated LEO capability (Congress required 70 t). Price is the
+      OIG's production estimate for the rocket alone; the full SLS/Orion/ground
+      system was estimated at $4.1 billion per launch.
+    model: [assembly_risk_pct]
+
+  - id: falcon_heavy_exp
+    name: "Falcon Heavy (expendable)"
+    operator: SpaceX
+    leo_t: 63.8
+    price_musd: 150
+    assembly_risk_pct: 4
+    sources: [spacex_falcon_heavy, elonx_falcon_heavy]
+    note: >
+      63.8 t is SpaceX's published LEO figure with every core expended. The
+      $150 M expendable price is a reported list price, not a contract value.
+    model: [assembly_risk_pct]
+
+  - id: falcon_heavy_reuse
+    name: "Falcon Heavy (boosters recovered)"
+    operator: SpaceX
+    leo_t: 57.0
+    price_musd: 97
+    assembly_risk_pct: 4
+    sources: [orbitalradar_falcon, aiaa_falcon]
+    note: >
+      Recovering the side boosters costs payload. SpaceX listed about $90-97 M
+      for a standard Falcon Heavy mission (2020).
+    model: [assembly_risk_pct, leo_t]
+
+  - id: falcon_9
+    name: "Falcon 9"
+    operator: SpaceX
+    leo_t: 22.8
+    price_musd: 62
+    assembly_risk_pct: 2
+    sources: [orbitalradar_falcon, aiaa_falcon]
+    note: "Small payloads and consumables resupply before departure."
+    model: [assembly_risk_pct]

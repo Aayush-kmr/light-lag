@@ -1,0 +1,131 @@
+{
+ "model": "Conv1d autoencoder",
+ "params": 16343,
+ "epochs": 12,
+ "train_windows": 52800,
+ "threshold": 0.13012298941612244,
+ "threshold_quantile": 99.8,
+ "persist_frames": 12,
+ "frame_dt_s": 10.0,
+ "detection_horizon_min": 60,
+ "tune_fault_types": [
+  "scrubber_valve_stuck",
+  "pump_a_degradation",
+  "bus_short",
+  "hga_drift"
+ ],
+ "held_out_fault_types": [
+  "array_string_loss",
+  "heater_stuck_on",
+  "sensor_stuck_ppco2",
+  "sensor_drift_loop_b"
+ ],
+ "results": {
+  "per_type": {
+   "none": {
+    "n": 160,
+    "tp": 0,
+    "fp": 7,
+    "fn": 0,
+    "recall": null,
+    "median_latency_min": null,
+    "false_alarm_rate": 0.044
+   },
+   "scrubber_valve_stuck": {
+    "n": 40,
+    "tp": 0,
+    "fp": 0,
+    "fn": 40,
+    "recall": 0.0,
+    "median_latency_min": null,
+    "false_alarm_rate": 0.0
+   },
+   "pump_a_degradation": {
+    "n": 40,
+    "tp": 28,
+    "fp": 0,
+    "fn": 12,
+    "recall": 0.7,
+    "median_latency_min": 15.5,
+    "false_alarm_rate": 0.0
+   },
+   "bus_short": {
+    "n": 40,
+    "tp": 40,
+    "fp": 0,
+    "fn": 0,
+    "recall": 1.0,
+    "median_latency_min": 1.8,
+    "false_alarm_rate": 0.0
+   },
+   "hga_drift": {
+    "n": 40,
+    "tp": 40,
+    "fp": 0,
+    "fn": 0,
+    "recall": 1.0,
+    "median_latency_min": 17.9,
+    "false_alarm_rate": 0.0
+   },
+   "array_string_loss": {
+    "n": 40,
+    "tp": 0,
+    "fp": 0,
+    "fn": 40,
+    "recall": 0.0,
+    "median_latency_min": null,
+    "false_alarm_rate": 0.0
+   },
+   "heater_stuck_on": {
+    "n": 40,
+    "tp": 40,
+    "fp": 0,
+    "fn": 0,
+    "recall": 1.0,
+    "median_latency_min": 22.2,
+    "false_alarm_rate": 0.0
+   },
+   "sensor_stuck_ppco2": {
+    "n": 40,
+    "tp": 0,
+    "fp": 0,
+    "fn": 40,
+    "recall": 0.0,
+    "median_latency_min": null,
+    "false_alarm_rate": 0.0
+   },
+   "sensor_drift_loop_b": {
+    "n": 40,
+    "tp": 32,
+    "fp": 0,
+    "fn": 8,
+    "recall": 0.8,
+    "median_latency_min": 41.2,
+    "false_alarm_rate": 0.0
+   }
+  },
+  "tune_types": {
+   "precision": 0.939,
+   "recall": 0.675,
+   "tp": 108,
+   "fp": 7,
+   "fn": 52
+  },
+  "held_out_types": {
+   "precision": 0.911,
+   "recall": 0.45,
+   "tp": 72,
+   "fp": 7,
+   "fn": 88
+  },
+  "all": {
+   "precision": 0.963,
+   "recall": 0.562,
+   "tp": 180,
+   "fp": 7,
+   "fn": 140
+  }
+ },
+ "train_seconds": 43.7,
+ "caveat": "Synthetic data from the game's own ship model. These numbers say the detector works on this simulator, not on spacecraft."
+}

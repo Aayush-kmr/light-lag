@@ -1,0 +1,62 @@
+# Upgrade B (Phase 6): "Meanwhile, in reality".
+#
+# The default design flies the real 2020 window on the same days as NASA's
+# Mars 2020 mission. When the game clock passes the date of a real event, each
+# screen shows it once as a quiet line. Never scored, never in-world knowledge:
+# it is a note to the players about the real world, so it carries no light delay.
+#
+# Rule: an event is listed only after its date was confirmed on a NASA page or
+# on the mission agency's own page (the source key, see data/catalog/sources.yaml).
+# `utc` is the moment the game compares against; `date_label` is what players read.
+# Text under 20 words. No em dashes.
+#
+# Checked and dropped: Hope (UAE) Mars orbit insertion, 9 Feb 2021. The date is
+# in news reports and on UAE ministry pages, but no MBRSC or UAE Space Agency page
+# found during the check states it, so it is left out.
+
+perseverance:
+  launch: "2020-07-30"
+  arrival: "2021-02-18"
+  line: "Perseverance flew 2020-07-30 to 2021-02-18."
+
+events:
+  - id: hope_launch
+    utc: "2020-07-19T21:58:00"
+    date_label: "20 July 2020, UAE time"
+    text: "The UAE's Hope probe lifted off for Mars from Tanegashima, Japan."
+    source: emm_journey
+  - id: tianwen1_launch
+    utc: "2020-07-23T04:41:00"
+    date_label: "23 July 2020"
+    text: "China's Tianwen-1 launched for Mars on a Long March 5 from Wenchang."
+    source: cnsa_tianwen1_launch
+  - id: m2020_launch
+    utc: "2020-07-30T11:50:00"
+    date_label: "30 July 2020"
+    text: "NASA's Perseverance rover launched for Mars from Cape Canaveral, with the Ingenuity helicopter aboard."
+    source: nasa_m2020_launch
+  - id: tianwen1_moi
+    utc: "2021-02-10T12:00:00"
+    date_label: "10 February 2021"
+    text: "Tianwen-1 entered orbit around Mars."
+    source: cnsa_tianwen1_moi
+  - id: m2020_landing
+    utc: "2021-02-18T20:55:00"
+    date_label: "18 February 2021"
+    text: "Perseverance landed in Jezero Crater."
+    source: jpl_m2020_landing
+  - id: ingenuity_flight1
+    utc: "2021-04-19T07:31:00"
+    date_label: "19 April 2021"
+    text: "Ingenuity made the first powered, controlled flight on another planet."
+    source: jpl_ingenuity_flight1
+  - id: zhurong_landing
+    utc: "2021-05-14T23:18:00"
+    date_label: "15 May 2021, Beijing time"
+    text: "Tianwen-1's lander touched down in Utopia Planitia, carrying the Zhurong rover."
+    source: cnsa_zhurong_landing
+  - id: conjunction_2021
+    utc: "2021-10-02T00:00:00"
+    date_label: "2 October 2021"
+    text: "NASA stopped commanding its Mars fleet: solar conjunction, through 16 October."
+    source: jpl_conjunction_2021

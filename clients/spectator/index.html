@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Watch, LIGHT-LAG</title>
+  <link rel="stylesheet" href="/shared/style.css" />
+  <link rel="icon" href="data:," />
+  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/vendor/three/addons/"}}</script>
+  <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    .watch { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 1px; background: var(--rule); min-height: 0; }
+    .view { position: relative; background: #000; min-height: 420px; }
+    .view canvas#view { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .view .now { position: absolute; left: 22px; top: 18px; z-index: 3; max-width: 560px; pointer-events: none; }
+    .view .now .act { color: var(--signal); font-size: var(--t-s); }
+    .view .now h1 { font-size: var(--t-2xl); text-shadow: none; }
+    .view .now p { color: var(--phosphor); opacity: .85; text-shadow: none; margin-top: 6px; font-size: var(--t-m); }
+    .view .orr { position: absolute; right: 16px; bottom: 16px; width: 260px; height: 260px; z-index: 3; background: var(--console); border: 1px solid var(--rule-2);
+      border-radius: 10px;  }
+    .view .orr canvas { width: 100%; height: 100%; }
+    .rail { background: var(--console); display: flex; flex-direction: column; min-height: 0; overflow: auto; }
+    .rail section { padding: 16px 18px; border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; gap: 10px; }
+    #wave { font-size: var(--t-l); padding: 16px; width: 100%; }
+    .kitchen { background: #17130f; }
+    .kitchen h2 { color: var(--paper); font-family: var(--letter); font-weight: 400; font-style: italic; }
+    .kitchen .note { font: 400 var(--t-m)/1.5 var(--letter); color: var(--paper); border-left: 2px solid #6e5a40; padding-left: 12px; }
+    .kitchen .note .when { display: block; font: italic 400 var(--t-xs) var(--letter); color: #a48d6c; }
+    .feed .msg { font-size: var(--t-s); }
+    .prelaunch .orr, .prelaunch #sides-sec { display: none; }
+    /* Phones: the scene text sits above the globe, never on it. */
+    @media (max-width: 600px) {
+      .watch { flex: none; }
+      .view { display: flex; flex-direction: column; min-height: 0; height: auto; }
+      .view .now { order: -1; position: static; max-width: none; padding: 16px 18px 8px; }
+      .view canvas#view { position: relative; inset: auto; flex: none; width: 100% !important; height: 52vh !important; }
+    }
+    /* Phase 6: "Meanwhile, in reality", a quiet line at the bottom of the view */
+    .view .reality-now { position: absolute; left: 22px; bottom: 22px; z-index: 3; max-width: min(560px, calc(100% - 320px)); pointer-events: none; transition: opacity 1.2s var(--ease); }
+    .view .reality-now.off { opacity: 0; }
+    #reality-sec[hidden] { display: none; }
+    .view .reality-now .compare { color: var(--haze); font-size: var(--t-s); margin-top: 6px; }
+    .view .reality-now .reality-kicker { font-size: var(--t-s); }
+    .view .reality-now .reality-item { font-size: var(--t-l); line-height: 1.4; }
+    @media (max-width: 900px) { .view .reality-now { position: static; max-width: none; padding: 10px 18px 14px; } }
+    @media (max-width: 900px) { .view .now h1 { font-size: var(--t-xl); } .view .now p { font-size: var(--t-s); } .watch { grid-template-columns: 1fr; } .view { min-height: 56vh; } .view .orr { width: 150px; height: 150px; } }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand"><i style="background:var(--phosphor);box-shadow:none"></i>Light-lag</div>
+    <div class="cell"><span class="k">Mission day</span><span class="v" id="t-day">–</span></div>
+    <div class="cell"><span class="k">Houston</span><span class="v" id="t-home">–</span></div>
+    <div class="cell"><span class="k">Antenna link</span><span class="v" id="t-link">–</span></div>
+    <div class="spacer"></div>
+    <div class="cell" id="room-cell"></div>
+  </div>
+  <div class="ribbon">
+    <div class="lt"><div class="big num" id="lt-big">–</div><div class="sub">for light to cross between Houston and the ship</div></div>
+    <canvas id="ribbon"></canvas>
+  </div>
+  <main class="watch">
+    <div class="view" id="stage">
+      <canvas id="view" aria-label="Meridian-1 in space"></canvas>
+      <div class="now" id="now"></div>
+      <div class="orr"><canvas id="orrery" aria-label="Orrery"></canvas></div>
+      <div class="reality-now off" id="reality-now" role="status" aria-live="polite"></div>
+    </div>
+    <aside class="rail">
+      <section id="seats-sec"><h2>Take a seat in this mission</h2>
+        <nav class="seat-links" aria-label="Take a seat in this mission">
+          <a href="/control/">Flight Director</a><a href="/control/?seat=scientist">Mission Scientist</a>
+          <a href="/ship/">Imani Reyes, commander</a><a href="/ship/?seat=engineer">Flight Engineer</a>
+        </nav>
+        <div class="small haze">Any seat nobody takes is played by AI. Open one on this device or send the invite link to someone else.</div></section>
+      <section><button class="primary" id="wave">Wave at Imani</button>
+        <div class="small haze" id="wave-note">Your wave travels at the speed of light, like everything else. Watch for your message on the line above.</div></section>
+      <section id="sides-sec"><h2>Both sides, right now</h2><table class="kv" id="sides"></table></section>
+      <section id="crew-sec"><h2>The crew aboard</h2><div class="crew-strip" id="crew-strip"></div></section>
+      <section class="kitchen"><h2>The Reyes kitchen table, Houston</h2><div class="stack" id="home"><div class="small" style="color:#a48d6c">Lila records a goodnight for her mother every evening.</div></div></section>
+      <section id="reality-sec" hidden><h2>Meanwhile, in reality</h2><div class="small haze" id="reality-compare"></div><div class="stack" id="reality-list"></div>
+        <button class="ghost small" id="reality-why">Why did three missions leave in July 2020?</button><div id="reality-card"></div></section>
+      <section><h2>What's happening</h2><div class="list feed" id="feed"><div class="empty">The story will appear here as it happens.</div></div></section>
+    </aside>
+  </main>
+  <script type="module">
+    import { $, el, dur, num, Link, linkState, roomUrl, roomChip, ROOM, realityNode, science } from '/shared/ll.js';
+    import { LaunchFX } from '/shared/launch.js';
+    import { drawOrrery, drawRibbon } from '/shared/viz.js';
+    import { SpaceView } from '/shared/viewport.js';
+    import { ReviewOverlay } from '/shared/review.js';
+    import { lowerThird } from '/shared/trace.js';
+    import { showDebrief } from '/shared/debrief.js';
+    let traj = null, last = null, S = null, recvAt = 0, view = null;
+    const board = new ReviewOverlay();
+    $('#room-cell').append(roomChip('/'));
+    try { view = new SpaceView($('#view'), { hero: true }); } catch (e) { /* no WebGL */ }
+    const launch = new LaunchFX({ side: 'spectator', view });        // Phase 6: engine-glow pulse and the counter
+    // Phase 6: "Meanwhile, in reality" lines (never scored), and the Perseverance comparison.
+    let realityTimer = null, realityKey = '';
+    const showReality = (r) => {
+      const box = $('#reality-now'); box.innerHTML = ''; box.append(realityNode(r));
+      if (S?.reality?.compare) box.append(el('div', { class: 'compare' }, S.reality.compare));
+      box.classList.remove('off'); clearTimeout(realityTimer); realityTimer = setTimeout(() => box.classList.add('off'), (r.items.length > 1 ? 16 : 12) * 1000);
+    };
+    const renderRealityList = (R) => {
+      if (!R) return; const k = JSON.stringify([R.shown.map((x) => x.id), R.compare]);
+      if (k === realityKey) return; realityKey = k;
+      $('#reality-sec').hidden = !R.shown.length && !R.compare;
+      $('#reality-compare').textContent = R.compare || '';
+      $('#reality-list').replaceChildren(...[...R.shown].reverse().map((it) => realityNode({ items: [it] }, { long: true })));
+    };
+    $('#reality-why').onclick = () => science('july_2020').then((n) => n && $('#reality-card').replaceChildren(n));
+    const feed = (t, cls = '') => { const f = $('#feed'); f.querySelector('.empty')?.remove(); f.prepend(el('div', { class: 'msg ' + cls }, t)); while (f.children.length > 60) f.lastChild.remove(); };
+    const link = new Link('spectator', {
+      state: (s) => {
+        S = s; recvAt = performance.now();
+        if (s.phase !== last) {
+          if (last && ['mission', 'debrief'].includes(last) && s.phase === 'design') return location.reload();
+          last = s.phase;
+          if (s.phase === 'mission' || s.phase === 'debrief') fetch(roomUrl('/api/trajectory')).then((r) => r.json()).then((t) => (traj = t)).catch(() => {});
+          if (s.phase === 'debrief') fetch(roomUrl('/api/after-action')).then((r) => r.json()).then(showDebrief).catch(() => {});
+        }
+        board.update(s);
+        launch.update(s);
+        renderRealityList(s.reality);
+        document.body.classList.toggle('prelaunch', !s.geometry); $('#wave').disabled = !s.geometry;
+        if (s.burn) { const k = 'burn' + s.burn.n; if ($('#now').dataset.k !== k) { $('#now').dataset.k = k; $('#now').innerHTML = '';
+          $('#now').append(el('div', { class: 'act' }, 'The review board says go'), el('h1', {}, 'Trans-Mars injection'), el('p', {}, 'The last seconds of the burn that sends Meridian-1 to Mars. The story starts 26 hours later.')); } return; }
+        if (!s.geometry) { view?.setHero(true); const k = s.phase + (s.review?.n || ''); if ($('#now').dataset.k !== k) { $('#now').dataset.k = k; $('#now').innerHTML = s.phase === 'review'
+          ? `<div class="act">Flight Readiness Review</div><h1>The board is checking the design.</h1><p>Five reviewers. A failure costs launch-window days.</p>`
+          : `<div class="act">Before launch</div><h1>The crew is designing the mission.</h1><p>Four seats choose the objective, payload, launch date, rocket, power, shielding and radio time. When all four say go, a review board checks the design.</p>`; } return; }
+        const g = s.geometry, [lb, lc] = linkState(s.comms.link);
+        view?.setHero(false); view?.update(s);
+        $('#t-day').textContent = num(g.mission_day, 1); $('#t-home').textContent = s.home_local.replace(/^\w+ /, '');
+        $('#t-link').innerHTML = ''; $('#t-link').append(el('span', { class: 'badge ' + lc }, lb));
+        $('#lt-big').textContent = dur(g.lt_up_s, { precise: true });
+        const sc = s.director.scene;
+        if (sc && $('#now').dataset.k !== sc.id) { $('#now').dataset.k = sc.id; $('#now').innerHTML = ''; $('#now').append(el('div', { class: 'act' }, `Act ${sc.act}: ${s.director.act_title || sc.act_title || ''}`), el('h1', {}, sc.title.replace(/^.*\/\s*/, '')), el('p', {}, sc.card || '')); }
+        drawOrrery($('#orrery'), s, traj, 'truth');
+        const c = s.control || {}, sh = s.ship || {}, k = JSON.stringify([c.age_s && Math.round(c.age_s), sh.dose?.total_msv, sh.shelter, s.comms.queue_counts, s.truth?.faults]);
+        if ($('#sides').dataset.k !== k) { $('#sides').dataset.k = k; $('#sides').innerHTML = `
+          <tr><td>Houston's newest news from the ship</td><td class="v">${c.age_s != null ? dur(c.age_s) + ' old' : '–'}</td></tr>
+          <tr><td>Imani's radiation dose</td><td class="v">${num(sh.dose?.total_msv, 1)}<span class="u">mSv</span></td></tr>
+          <tr><td>In the storm shelter</td><td class="v txt">${sh.shelter ? 'Yes' : 'No'}</td></tr>
+          <tr><td>Messages waiting in Houston, aboard</td><td class="v">${s.comms.queue_counts.control}, ${s.comms.queue_counts.ship}</td></tr>
+          <tr><td>Hidden faults (only you can see these)</td><td class="v txt lantern">${(s.truth?.faults || []).join(', ').replace(/_/g, ' ') || 'None'}</td></tr>`; }
+        const W = (v, w) => w[Math.max(0, Math.min(3, Math.floor((v ?? 0) * 4)))], cm = s.crew?.members || [];
+        const ck = JSON.stringify(cm.map((m) => [m.task?.label, m.asleep, Math.round(m.fatigue * 4), Math.round(m.morale * 4)]));
+        if ($('#crew-strip').dataset.k !== ck) { $('#crew-strip').dataset.k = ck; $('#crew-strip').innerHTML = '';
+          for (const m of cm) $('#crew-strip').append(el('div', { class: 'crew-chip' }, el('b', {}, m.first), el('span', { class: 'dim small' }, ` ${m.role}${m.human ? ', a player' : ''}`),
+            el('div', { class: 'small' }, m.task?.label || (m.asleep ? 'Asleep' : 'Off duty')),
+            el('div', { class: 'small haze' }, `${W(m.fatigue, ['Rested', 'A bit tired', 'Tired', 'Exhausted'])}, morale ${W(m.morale, ['low', 'flat', 'good', 'high'])}`))); }
+      },
+      event: (e) => {
+        if (e.kind === 'letter_created') { const h = $('#home'); h.prepend(el('div', { class: 'note' }, el('span', { class: 'when' }, `${e.who === 'lila' ? 'Lila' : 'Theo'}, ${e.local}`), e.text)); while (h.children.length > 8) h.lastChild.remove(); }
+        if (e.kind === 'letter') feed(`Reached the ship: ${e.letter.from === 'lila' ? "Lila's" : "Theo's"} message from ${e.letter.created_local}.`, 'family');
+        if (e.kind === 'letter_home') feed(`Imani's message reached Houston: “${e.letter.text}”`, 'family');
+        if (e.kind === 'tern') feed('TERN: ' + e.text, 'tern');
+        if (e.kind === 'crew_say') feed(`${e.name.replace(/^Dr\. /, '').split(' ')[0]}: ${e.text}`, 'crew');
+        if (e.kind === 'tern_decision') feed(`TERN ${e.decision.outcome === 'broke_policy' ? 'broke its rules' : 'decided'}: ${e.decision.rationale}`, 'tern');
+        if (e.kind === 'alert') feed(`${e.title}: ${e.text}`, 'alert');
+        if (e.kind === 'message') feed(`${e.message.from}: ${e.message.text}`);
+        if (e.kind === 'note') feed(e.text);
+        if (e.kind === 'fault') feed(`Only you can see this: ${e.name.replace(/_/g, ' ')} has started aboard.`, 'alert');
+        if (e.kind === 'objective') feed('Done: ' + e.text);
+        if (e.kind === 'callout') { lowerThird(e.callout); feed('Their design: ' + e.callout.text, 'trace'); }
+        if (e.kind === 'reality') { showReality(e.reality); for (const it of e.reality.items) feed(`Meanwhile, in reality, ${it.date_label}: ${it.text}`, 'reality'); }
+        if (e.kind === 'tmi_burn') feed(`Trans-Mars injection: ${num(e.burn.dv_kms, 2)} km/s (MODEL, from the design's C3).`);
+        if (e.kind === 'review_done') feed(e.verdict === 'fail' ? `The review board failed the design. Launch slips ${e.slip_days} days.` : 'The review board says go.');
+      },
+    });
+    (function frame() { if (S?.geometry) drawRibbon($('#ribbon'), S, performance.now(), recvAt); requestAnimationFrame(frame); })();
+    $('#wave').onclick = () => { link.send('ping'); $('#wave-note').textContent = 'Sent. Your wave is crossing space now: the green dot on the line above.'; };
+  </script>
+</body>
+</html>

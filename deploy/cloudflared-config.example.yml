@@ -1,0 +1,16 @@
+# Cloudflare Tunnel for LIGHT-LAG. Copy to ~/.cloudflared/config.yml and fill in
+# the tunnel id and hostname. Create the tunnel once with:
+#   cloudflared tunnel login
+#   cloudflared tunnel create lightlag
+#   cloudflared tunnel route dns lightlag lightlag.byaayushkumar.com
+tunnel: 00000000-0000-0000-0000-000000000000
+credentials-file: /Users/YOUR_USER/.cloudflared/00000000-0000-0000-0000-000000000000.json
+
+ingress:
+  - hostname: lightlag.byaayushkumar.com
+    service: http://127.0.0.1:8765
+    originRequest:
+      # The game keeps one WebSocket open per screen; keep idle sockets alive.
+      keepAliveTimeout: 90s   # WebSockets need no extra setting; this keeps idle ones open
+      noTLSVerify: false
+  - service: http_status:404

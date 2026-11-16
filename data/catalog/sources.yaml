@@ -1,0 +1,130 @@
+# Every source the catalog cites. Catalog entries refer to these by key.
+# Rule (docs/data-provenance.md): a number is either traceable to one of
+# these, or it is labelled MODEL and explained in its entry's `note`.
+
+nasa_mro_instruments:
+  title: "Mars Reconnaissance Orbiter: Science Instruments (NASA Science)"
+  url: "https://science.nasa.gov/mission/mars-reconnaissance-orbiter/science-instruments"
+  publisher: NASA
+hirise_cost:
+  title: "HiRISE (instrument cost, US$40 million)"
+  url: "https://www.wikiwand.com/en/HiRISE"
+  publisher: "Wikipedia (secondary)"
+odyssey_fact_sheet:
+  title: "Mars Odyssey's scientific objectives (NASA fact sheet, April 2001)"
+  url: "https://spaceflightnow.com/mars/odyssey/010405science.html"
+  publisher: "NASA, reproduced by Spaceflight Now"
+rad_hassler_2016:
+  title: "Hassler: Space Weather at Mars (MSL/RAD overview, Space Weather Workshop 2016)"
+  url: "https://www.swpc.noaa.gov/sites/default/files/images/u33/Hassler_Space_Weather_at_Mars_SWW_talk_29apr16_FINAL.pdf"
+  publisher: "SwRI / NOAA SWPC"
+rad_rafkin_2006:
+  title: "Rafkin: RAD - The Radiation Assessment Detector for MSL (NASA SRAG workshop 2006)"
+  url: "https://srag.jsc.nasa.gov/Publications/Workshop_2006-04/RAD_RAFKIN_2006.pdf"
+  publisher: "NASA JSC SRAG"
+sls_wikipedia:
+  title: "Space Launch System: payload capacity table"
+  url: "https://en.wikipedia.org/wiki/Space_Launch_System"
+  publisher: "Wikipedia (secondary, cites NASA)"
+oig_ig_22_003:
+  title: "NASA OIG IG-22-003: NASA's Management of the Artemis Missions (Nov 2021)"
+  url: "https://oig.nasa.gov/docs/IG-22-003.pdf"
+  publisher: "NASA Office of Inspector General"
+spacex_falcon_heavy:
+  title: "SpaceX: Falcon Heavy"
+  url: "https://spacex.com/vehicles/falcon-heavy"
+  publisher: SpaceX
+aiaa_falcon:
+  title: "AIAA Vehicle Guide: Falcon (launch prices, SpaceX 2020)"
+  url: "https://www.aiaa.org/vehicle-guide/vehicles/falcon"
+  publisher: AIAA
+elonx_falcon_heavy:
+  title: "Falcon Heavy Compendium (expendable list price)"
+  url: "https://elonx.net/?p=417"
+  publisher: "ElonX (secondary)"
+orbitalradar_falcon:
+  title: "Falcon Heavy / Falcon 9 specifications"
+  url: "https://orbitalradar.com/launch-vehicles/falcon-heavy"
+  publisher: "Orbital Radar (secondary)"
+bvad_rev1:
+  title: "Life Support Baseline Values and Assumptions Document, NASA/TP-2015-218570/REV1 (2018)"
+  url: "https://simoc.space/wp-content/uploads/2018/09/BVAD-20180501.pdf"
+  publisher: NASA
+bvad_calc:
+  title: "Life support mass-balance calculator (BVAD Rev1 default values)"
+  url: "https://lifesupportcalc.neocities.org/"
+  publisher: "secondary, cites BVAD Rev1"
+ascend_2023_logistics:
+  title: "Logistics Beyond LEO (ASCEND 2023), consumable rates from BVAD Rev2"
+  url: "https://ntrs.nasa.gov/api/citations/20230013896/downloads/Logistics_BeyondLEO-ASCEND2023-Pres.pdf"
+  publisher: "NASA NTRS"
+ochmo_eclss:
+  title: "NASA-STD-3001 Technical Brief OCHMO-TB-002: ECLSS"
+  url: "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf"
+  publisher: "NASA OCHMO"
+iss_water_98:
+  title: "NASA achieves water recovery milestone on International Space Station (June 2023)"
+  url: "https://phys.org/news/2023-06-nasa-recovery-milestone-international-space.html"
+  publisher: "NASA, via phys.org"
+sst_soa_power:
+  title: "NASA Small Spacecraft Technology State of the Art: Power"
+  url: "https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems"
+  publisher: "NASA Small Spacecraft Systems Virtual Institute"
+dra5_drake:
+  title: "Drake: Human Exploration of Mars Design Reference Architecture 5.0"
+  url: "https://ntrs.nasa.gov/api/citations/20100028285/downloads/20100028285.pdf"
+  publisher: "NASA NTRS"
+scan_mocs_0001:
+  title: "NASA's Mission Operations and Communications Services, SCaN-MOCS-0001 Rev 2 (2019), Appendix F: DSN aperture fee"
+  url: "https://essp.larc.nasa.gov/EVM-3/pdf_files/SCaN-MOCS-0001%20Rev%202_final.pdf"
+  publisher: "NASA SCaN"
+nssdc_mars_fact:
+  title: "Mars Fact Sheet (semimajor axis 1.524 AU; solar irradiance 0.431 of Earth's; synodic period 779.94 days)"
+  url: "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+  publisher: "NASA GSFC NSSDCA"
+nasa_std_3001_tb020:
+  title: "NASA-STD-3001 Technical Brief OCHMO-TB-020: Design for Ionizing Radiation Protection (quotes NASA-STD-3001 Vol. 1 Rev. B [V1 4030] career limit 600 mSv and [V1 4031] solar particle event limit 250 mSv)"
+  url: "https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf"
+  publisher: "NASA Office of the Chief Health and Medical Officer"
+mro_ssr:
+  title: "Mars Reconnaissance Orbiter arrival press kit (2006): 160 Gbit solid-state recorder"
+  url: "https://www.jpl.nasa.gov/news/press_kits/mro-arrival.pdf"
+  publisher: "NASA / JPL"
+# Phase 6: "Meanwhile, in reality" (data/story/reality.yaml) and the July 2020 window card.
+# Each date was checked on the page below (NASA, JPL, CNSA or the Emirates Mars Mission).
+emm_journey:
+  title: "Emirates Mars Mission: The journey (launch from Tanegashima on 20 July 2020, 1:58 AM UAE time)"
+  url: "https://www.emiratesmarsmission.ae/journey/"
+  publisher: "Mohammed bin Rashid Space Centre (Emirates Mars Mission)"
+cnsa_tianwen1_launch:
+  title: "Tianwen-1: China successfully launches probe in first Mars mission (23 July 2020, 12:41 BJT)"
+  url: "https://www.cnsa.gov.cn/english/n6465652/n6465653/c6809882/content.html"
+  publisher: "China National Space Administration"
+nasa_m2020_launch:
+  title: "NASA release 20-077: NASA, ULA Launch Mars 2020 Perseverance Rover Mission to Red Planet (30 July 2020, 7:50 a.m. EDT)"
+  url: "https://www.nasa.gov/news-release/nasa-ula-launch-mars-2020-perseverance-rover-mission-to-red-planet/"
+  publisher: NASA
+cnsa_tianwen1_moi:
+  title: "Tianwen-1 probe will land on Mars in next few days (states Mars orbit entry on 10 February 2021)"
+  url: "https://www.cnsa.gov.cn/english/n6465719/c6812000/content.html"
+  publisher: "China National Space Administration"
+jpl_m2020_landing:
+  title: "Touchdown! NASA's Mars Perseverance Rover Safely Lands on Red Planet (18 February 2021)"
+  url: "https://www.jpl.nasa.gov/news/touchdown-nasas-mars-perseverance-rover-safely-lands-on-red-planet/"
+  publisher: "NASA / JPL"
+jpl_ingenuity_flight1:
+  title: "NASA's Ingenuity Mars Helicopter Succeeds in Historic First Flight (19 April 2021)"
+  url: "https://www.jpl.nasa.gov/news/nasas-ingenuity-mars-helicopter-succeeds-in-historic-first-flight/"
+  publisher: "NASA / JPL"
+cnsa_zhurong_landing:
+  title: "Probe makes historic landing on Mars (landed 7:18 am Beijing time, Saturday 15 May 2021)"
+  url: "https://www.cnsa.gov.cn/english/n6465652/n6465653/c6812005/content.html"
+  publisher: "China National Space Administration"
+jpl_conjunction_2021:
+  title: "NASA's Mars Fleet Lies Low With Sun Between Earth and Red Planet (commands stop 2 to 16 October 2021)"
+  url: "https://www.jpl.nasa.gov/news/nasas-mars-fleet-lies-low-with-sun-between-earth-and-red-planet/"
+  publisher: "NASA / JPL"
+jpl_m2020_press_kit:
+  title: "Mars 2020 Perseverance Landing Press Kit: Mission (why launch in summer 2020: Earth laps Mars about once every 26 months)"
+  url: "https://www.jpl.nasa.gov/news/press_kits/mars_2020/landing/mission/"
+  publisher: "NASA / JPL"

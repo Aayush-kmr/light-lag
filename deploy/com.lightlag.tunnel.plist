@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Cloudflare Tunnel as a macOS LaunchAgent (brew install cloudflared). Then:
+     cp deploy/com.lightlag.tunnel.plist ~/Library/LaunchAgents/
+     launchctl load ~/Library/LaunchAgents/com.lightlag.tunnel.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.lightlag.tunnel</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/cloudflared</string>
+    <string>tunnel</string>
+    <string>run</string>
+    <string>lightlag</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/tmp/lightlag.tunnel.log</string>
+  <key>StandardErrorPath</key><string>/tmp/lightlag.tunnel.log</string>
+</dict>
+</plist>

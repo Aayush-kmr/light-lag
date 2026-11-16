@@ -1,0 +1,171 @@
+# Flight Readiness Review: the board that stands between design and launch.
+#
+# Five reviewers, each a deterministic rule set over the design bay's own
+# evaluation (server/lightlag/sim/design.py) plus a few numbers the board adds
+# (the degraded power case, the projected storm and cosmic-ray dose). No
+# language model is involved in any finding.
+#
+# Every threshold names where it comes from: `source` (a key in
+# data/catalog/sources.yaml) or `model: true` with a note. Reviewer titles are
+# generic MODEL personas, not real people.
+#
+# Finding text uses {placeholders} filled by server/lightlag/sim/review.py.
+# No em dashes anywhere in this file.
+
+# The reveal: one shared screen on every client. Sound and camera cues follow
+# these timings; they are the single place the sequence lives (the server waits
+# exactly this long before it launches or sends the team back to the bay).
+timing:
+  dim_s: 1.0          # the room dims
+  area_s: 3.0         # each of the five areas resolves, its number ticking to its final value
+  verdict_s: 5.0      # the verdict holds before launch (or before the team goes back to the bay)
+  judge_verdict_s: 4.0
+
+# What a failed review costs. MODEL: a board that fails a design sends it back
+# for rework; the team loses days of the launch window while it is redone.
+slip:
+  days: 10
+  model: true
+  note: "MODEL: rework time after a failed review. Real reviews vary from days to months."
+
+# The next chance if the window closes: the Earth-Mars synodic period.
+scrub:
+  synodic_days: 779.94
+  source: nssdc_mars_fact
+  text: >-
+    The launch window has closed. Earth and Mars line up for a cheap trip once
+    every synodic period, 779.94 days, so the next window opens about 26 months
+    from now.
+
+verdicts:
+  pass: "PASS"
+  lien: "PASS WITH LIEN"
+  fail: "FAIL"
+
+areas:
+  - id: launch
+    title: "Launch and mass"
+    persona: "Launch and mass reviewer"
+    findings:
+      - id: mass_margin
+        label: "Mass margin"
+        lien_below: 0.10
+        model: true
+        note: "MODEL: 10% is the design bay's own green band, a common concurrent-engineering floor."
+        pass: "Mass closes with {value} margin against {limit} t, what {launches_limit} launches can lift."
+        lien: "Mass margin is only {value}. Any growth in the habitat or propellant needs another rocket."
+      - id: launches
+        label: "Launches"
+        lien_at: 4
+        model: true
+        note: "MODEL: the campaign can assemble at most 4 launches in low Earth orbit before departure."
+        pass: "{value} launches of {limit}. One spare launch slot if something slips."
+        lien: "{value} launches of {limit}. No spare slot: one failed launch scrubs the campaign."
+      - id: c3
+        label: "Launch energy (C3)"
+        lien_above_frac: 0.90
+        model: true
+        note: "MODEL: the board wants the trip to use under 90% of what the rockets you can afford can lift."
+        pass: "C3 {value} km²/s². The trip needs {imleo} t in orbit; the rockets you can afford lift {max_imleo} t."
+        lien: "C3 {value} km²/s². The trip needs {imleo} t of the {max_imleo} t the rockets you can afford lift. Little room for a late date change."
+
+  - id: power
+    title: "Power"
+    persona: "Power reviewer"
+    findings:
+      - id: power_margin
+        label: "Power margin at Mars"
+        lien_below: 0.10
+        model: true
+        note: "MODEL: same 10% green band as the design bay, at Mars's mean distance, 1.524 AU (NASA Mars Fact Sheet)."
+        sources: [nssdc_mars_fact]
+        pass: "{value} margin at 1.524 AU: {supply} kW of supply for a {load} kW load."
+        lien: "Only {value} margin at 1.524 AU: {supply} kW of supply for a {load} kW load."
+      - id: degraded_life_support
+        label: "Life support with one array string lost"
+        fail_below_kw: 0.0
+        model: true
+        note: "MODEL rule, the board's own: with one string failed and the science payload shed, the array must still carry life support at Mars. Measured with the same flight model the mission runs."
+        pass: "With one string lost and the payload shed, {degraded} kW still carries the {essential} kW life support needs."
+        fail: "With one string lost, the array gives {degraded} kW and life support needs {essential} kW. The ship would drain its battery with no way to stop it. The board will not fly this."
+      - id: degraded_payload
+        label: "Science payload with one array string lost"
+        lien_below_kw: 0.0
+        model: true
+        note: "MODEL: if one string short means shedding the payload, the board records it as a lien so the team knows what it is accepting."
+        pass: "Even one string short, the array carries the whole ship, payload included ({spare} kW to spare)."
+        lien: "One string short, the ship is {short} kW short with the payload on. TERN would have to shed the science payload."
+
+  - id: comms
+    title: "Communications and data"
+    persona: "Communications reviewer"
+    findings:
+      - id: data_margin
+        label: "Data margin"
+        lien_below: 0.10
+        model: true
+        note: "MODEL: same 10% green band as the design bay."
+        pass: "The {plan} plan brings home {capacity} Gbit a day for a payload that makes {demand}: {value} margin."
+        lien: "The {plan} plan leaves only {value} data margin. A bad week of passes and the recorder fills."
+      - id: dark_days
+        label: "Solar conjunction inside the stay"
+        model: true
+        note: "MODEL: conjunction is a known, predictable outage; the board notes it and checks TERN's rules carry the ship through it."
+        pass: "{value} days of the stay are behind the Sun. Nothing gets through; TERN's rules carry the ship."
+      - id: emergency_pass
+        label: "Room for an emergency pass"
+        model: true
+        note: "MODEL: a plan that books fewer than 24 antenna hours a day leaves time to book an emergency pass."
+        pass: "The {plan} plan books {hours} antenna hours a day, so {free} hours are left to book an emergency pass."
+        pass_full: "The continuous plan already holds an antenna around the clock: nothing extra to book."
+
+  - id: crew
+    title: "Crew health and safety"
+    persona: "Crew health reviewer"
+    findings:
+      - id: storm_dose
+        label: "Storm dose in the shelter"
+        fail_at_msv: 250
+        lien_above_msv: 125
+        source: nasa_std_3001_tb020
+        note: "NASA-STD-3001 Vol. 1 Rev. B [V1 4031]: protect the crew from the design reference solar particle event to less than 250 mSv effective dose. The board checks the game's reference storm (a replay of SOL2017-09-10), not NASA's October 1989 design event; the dose estimate is MODEL. The lien line at half the limit is MODEL."
+        pass: "In {shelter} g/cm² of shelter water, the reference storm gives about {value} mSv (limit 250). Outside the shelter: about {outside} mSv."
+        lien: "Even in the shelter the reference storm gives about {value} mSv, over half the 250 mSv limit."
+        fail: "In the shelter the reference storm gives about {value} mSv, over the 250 mSv limit. Add shelter water."
+      - id: gcr_dose
+        label: "Cosmic-ray dose"
+        noted_above_msv: 600
+        source: nasa_std_3001_tb020
+        note: "NASA-STD-3001 Vol. 1 Rev. B [V1 4030]: career effective dose below 600 mSv. No shielding this ship can carry stops cosmic rays, so the board notes it as a known risk and never fails a design on it. Projected dose is MODEL (1.84 mSv/day, Zeitlin et al. 2013)."
+        pass: "Projected cosmic-ray dose for the {days} days this mission flies: about {value} mSv, under the 600 mSv career limit."
+        lien: "Projected cosmic-ray dose for the {days} days this mission flies: about {value} mSv, over the 600 mSv career limit. No shield fixes this. Noted as a known risk."
+      - id: warning
+        label: "Storm warning aboard"
+        model: true
+        note: "MODEL: without its own flare monitor the ship hears of a flare only when Earth's warning arrives, a light time late."
+        pass: "The ship carries its own flare monitor: it sees a flare the moment the light arrives."
+        lien: "No flare monitor aboard. The crew hears of a flare only when Earth's warning arrives, a light time late."
+      - id: consumables
+        label: "Consumables"
+        model: true
+        note: "Food, water and oxygen from NASA BVAD rates; the 30-day reserve is MODEL."
+        sources: [bvad_rev1]
+        pass: "{value} t of consumables for a crew of {crew}, with a {reserve}-day reserve."
+
+  - id: cost
+    title: "Cost and schedule"
+    persona: "Cost and schedule reviewer"
+    findings:
+      - id: cost_margin
+        label: "Cost margin"
+        lien_below: 0.10
+        model: true
+        note: "MODEL: same 10% green band as the design bay; the cost cap per objective is MODEL."
+        pass: "${total} M against a ${cap} M cap: {value} margin."
+        lien: "${total} M against a ${cap} M cap: only {value} margin. One more rocket would break it."
+      - id: window
+        label: "Days left in the launch window"
+        model: true
+        note: "MODEL: a failed review costs the slip above. With fewer days left than that, one more failure scrubs the mission."
+        pass: "{value} days left in the launch window after this date."
+        lien: "Only {value} days left in the launch window. One failed review would scrub the mission."

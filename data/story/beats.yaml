@@ -1,0 +1,242 @@
+# LIGHT-LAG story beats - HAND-WRITTEN. Do not regenerate with an LLM.
+#
+# Voice rules (see docs/story-bible.md):
+#   * Lila is seven. Short sentences, concrete objects, no metaphors she
+#     wouldn't use. She is curious and a little annoyed, never tragic.
+#   * Imani is a professional. She is warm in few words and never explains
+#     danger to her daughter.
+#   * Nobody says "I miss you". Nobody cries on the page.
+#   * "Over" is the emotional instrument: it is born in beat 1, abandoned in
+#     the silence, and comes back.
+#
+# Fields
+#   scene:   scene id from the scenario file
+#   at_s:    universe seconds after scene start (or `night: N` for blackout nights)
+#   from:    lila | theo | imani | tern | lantern
+#   kind:    letter (family, via Lantern) | prompt (player prompt) | tern (spoken by TERN)
+#            | bot (what the judge-mode bot says if the player doesn't) | note (UI text)
+#   text:    the line. {placeholders} are filled from live tool results only.
+
+characters:
+  imani: { name: "Cmdr. Imani Reyes", callsign: "Meridian" }
+  lila:  { name: "Lila Reyes", age: 7, home: "Houston, Texas", bedtime_local: "20:00" }
+  theo:  { name: "Theo Reyes", role: "Lila's dad" }
+  tern:  { name: "TERN", role: "onboard AI" }
+  lantern: { name: "Lantern Control", callsign: "Lantern" }
+
+beats:
+  # ------------------------------------------------------------ ACT I
+  - id: b1_open
+    beat: 1
+    title: "The last live goodnight"
+    scene: s2
+    at_s: 20
+    from: lila
+    kind: letter
+    text: "Mom? Mom, can you hear me?"
+  - id: b1_imani_1
+    scene: s2
+    at_s: 34
+    from: imani
+    kind: bot
+    prompt: "Lila is on the line. Answer her."
+    text: "I hear you, bug. Loud and clear."
+  - id: b1_lila_2
+    scene: s2
+    at_s: 38
+    from: lila
+    kind: letter
+    text: "We can see the Moon from the porch. Are you past it yet? ...Mom?"
+  - id: b1_imani_2
+    scene: s2
+    at_s: 58
+    from: imani
+    kind: bot
+    text: "Way past it. It's behind me now. Sorry, there's a little wait. Everything takes a few seconds to get to you."
+  - id: b1_theo
+    scene: s2
+    at_s: 66
+    from: theo
+    kind: letter
+    text: "She's been counting the gap between talking and hearing you. She says it's twelve Mississippi."
+  - id: b1_lila_3
+    scene: s2
+    at_s: 76
+    from: lila
+    kind: letter
+    text: "Twelve Mississippi. Okay. Then you have to say over when you're done, like the real ones. So I know. Over."
+  - id: b1_imani_3
+    scene: s2
+    at_s: 96
+    from: imani
+    kind: bot
+    text: "Deal. Goodnight, Lila. Over."
+  - id: b1_lila_4
+    scene: s2
+    at_s: 110
+    from: lila
+    kind: letter
+    text: "Goodnight. Over. ...Over means you can talk now."
+
+  # ------------------------------------------------------------ ACT II
+  - id: b2_lila
+    beat: 2
+    title: "Lila's first confused message"
+    scene: s3
+    at_s: 60
+    from: lila
+    kind: letter
+    text: "Mom, I said goodnight and you didn't say it back. Dad says you did and it's still coming. Where is it right now? Is it in space? Over."
+  - id: b2_note
+    scene: s3
+    at_s: 61
+    from: lantern
+    kind: note
+    text: "Look at the in-flight lane: Imani's last goodnight is still out there. It hasn't reached Houston yet."
+  - id: b2_imani
+    scene: s3
+    on_delivery: b2_lila
+    delay_s: 30
+    from: imani
+    kind: bot
+    prompt: "Tell Lila where the message is."
+    text: "It's in space, bug. It's about halfway between us right now, going as fast as anything can go. It'll get there. They always get there. Over."
+
+  - id: b3_lila
+    beat: 3
+    title: "The day Imani can't answer in time"
+    scene: s4
+    at_s: 1200
+    from: lila
+    kind: letter
+    text: "Mom, I'm going to stay up until you answer. Dad says just this once. I'm on the couch. Over."
+  - id: b3_prompt
+    scene: s4
+    on_delivery: b3_lila
+    delay_s: 2
+    from: imani
+    kind: prompt
+    text: "Lila is waiting up. Your reply needs {round_trip} to get there and back."
+  - id: b3_theo_asleep
+    scene: s4
+    at_s: 2400
+    from: theo
+    kind: letter
+    condition: "no_reply_before_deadline"
+    text: "She made it to twenty past eight. Asleep on the couch holding the tablet. I'll play yours for her at breakfast."
+  - id: b3_theo_heard
+    scene: s4
+    at_s: 2400
+    from: theo
+    kind: letter
+    condition: "reply_before_deadline"
+    text: "She heard you. Barely. She said 'over' with her eyes closed and that was it."
+  - id: b3_imani_morning
+    scene: s4
+    at_s: 2500
+    from: imani
+    kind: bot
+    prompt: "Record something for breakfast."
+    text: "Good morning, Lila. You fell asleep before I got there, which means you won. Eat something that isn't cereal. Over."
+
+  - id: b4_lila
+    beat: 4
+    title: "A storm night"
+    scene: s5
+    at_s: 300
+    from: lila
+    kind: letter
+    text: "I drew the ship. I gave it more windows because you said there weren't enough. Dad's going to scan it. Over."
+  - id: b4_theo_to_lantern
+    scene: s5
+    at_s: 2400
+    from: theo
+    kind: letter
+    to: lantern
+    text: "Lantern, it's Theo Reyes. The news says there's a solar storm. Is she okay?"
+  - id: b4_imani
+    scene: s5
+    at_s: 3600
+    from: imani
+    kind: bot
+    prompt: "You're in the shelter. Say goodnight."
+    text: "I'm in the little room tonight, the one with water in the walls. It's like a blanket fort. I'll tell you about it when I'm out. Goodnight. Over."
+
+  # ------------------------------------------------------------ ACT III
+  - id: b5_imani
+    beat: 5
+    title: "The silence"
+    scene: s6
+    at_s: 120
+    from: imani
+    kind: bot
+    prompt: "Explain conjunction to a seven-year-old."
+    text: "The Sun is going to be between us for a while. Nothing is broken. It's just in the way. Keep talking to me anyway. I'll get all of it when it moves. Over."
+  - id: b5_lila
+    scene: s6
+    at_s: 20800            # breakfast in Houston, hours after the scene; arrives during the time skip
+    from: lila
+    kind: letter
+    text: "How long is a while? Over."
+  - id: b5_imani_2
+    scene: s7
+    at_s: 5                # recorded in the dark; it waits in Meridian's store and leaves with the flood
+    from: imani
+    kind: bot
+    text: "About twelve nights. Count them for me. Over."
+  - id: b5_tern_dark
+    scene: s7
+    at_s: 1
+    from: tern
+    kind: tern
+    text: "Commander, carrier lost. That's expected. Sun-Earth-probe angle {sep_deg} degrees. I'll keep the lights on."
+
+  # The silence: one message per night, created in Houston at 20:00 local on
+  # each night of the blackout. They queue at Lantern. Nobody hears them.
+  - { id: n01, scene: s7, night: 1, from: lila, kind: letter, text: "Goodnight, Mom. Dad says you can't hear this yet but I'm saying it anyway. Over." }
+  - { id: n02, scene: s7, night: 2, from: lila, kind: letter, text: "We had pancakes for dinner. Dad says don't tell you. Over." }
+  - { id: n03, scene: s7, night: 3, from: lila, kind: letter, text: "My tooth is loose. The bottom one. Over." }
+  - { id: n04, scene: s7, night: 4, from: lila, kind: letter, text: "Ms. Okafor asked what you do and I said you're on the other side of the Sun. She said that's very far. I said I know. Over." }
+  - { id: n05, scene: s7, night: 5, from: lila, kind: letter, text: "I'm not tired. Goodnight. Over." }
+  - { id: n06, scene: s7, night: 6, from: lila, kind: letter, text: "The tooth came out at lunch. I'm keeping it so you can see it. It's in an envelope. Over." }
+  - { id: n07, scene: s7, night: 7, from: lila, kind: letter, text: "Dad showed me on the computer where the Sun is. It's right in the middle. That's a dumb place for it. Over." }
+  - { id: n08, scene: s7, night: 8, from: lila, kind: letter, text: "I'm not going to say over anymore because you can't hear it anyway." }
+  - { id: n09, scene: s7, night: 9, from: lila, kind: letter, text: "Goodnight." }
+  - { id: n10, scene: s7, night: 10, from: lila, kind: letter, text: "I'm saying it again. In case. Over." }
+  - { id: n11, scene: s7, night: 11, from: lila, kind: letter, text: "Dad says the Sun is moving out of the way. Can you hear me yet? Over." }
+  - { id: n_theo, scene: s7, night: 6, at_local: "21:40", from: theo, kind: letter, text: "We're okay. She's keeping a log. You'll see. Love, T." }
+
+  - id: b6_flood
+    beat: 6
+    title: "The flood"
+    scene: s8
+    at_s: 1
+    from: tern
+    kind: tern
+    text: "Carrier acquired. Lantern's store is flushing. Everything they held for us is in flight now. First arrival in {lt_up}."
+  - id: b6_prompt
+    scene: s8
+    at_s: 2
+    from: imani
+    kind: prompt
+    text: "The messages are coming in all at once. You choose the order."
+  - id: b6_reply
+    scene: s8
+    at_s: 0
+    trigger: "flood_all_played"
+    from: imani
+    kind: bot
+    prompt: "Answer them."
+    text: "I heard every one. Every single one. Keep the tooth. Over."
+
+# Filler: goodnights that happen off-screen during time skips. Shown only in
+# the letters archive. Hand-written so the archive never sounds generated.
+filler:
+  - "Goodnight. We watched the launch video again. Over."
+  - "Dad burned the rice. Over."
+  - "I counted to two hundred and you still weren't there yet. Goodnight. Over."
+  - "There was a spider in the bath. Dad got it with a cup. Over."
+  - "It rained. Over."
+  - "I found Mars. It's the orange one. Dad says I'm right. Over."
+  - "Goodnight Mom goodnight ship goodnight TERN. Over."
+  - "I lost my library book and then I found it. Over."

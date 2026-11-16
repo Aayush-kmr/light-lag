@@ -1,0 +1,23 @@
+# Programme costs that are not a launch or an instrument.
+# Launch prices live in launch_vehicles.yaml, instrument costs in
+# instruments.yaml, cost caps per objective in objectives.yaml.
+
+# Deep Space Network aperture fee: AF ($/h) = RB x AW (SCaN-MOCS-0001 Rev 2,
+# Equation F-1). Meridian-1 is tracked by the 70 m dishes (DSS-14/43/63).
+dsn_rate_base_usd_h:
+  value: 950
+  sources: [scan_mocs_0001]
+  note: "DSN contact-dependent hourly rate at publication (Rev 2, March 2019; the document expired March 2024, so this is the 2019 rate)."
+dsn_aperture_weight_70m:
+  value: 2.0
+  sources: [scan_mocs_0001]
+  note: "Aperture weighting for 70-meter stations (34 m stations weigh 1.0)."
+
+flight_ops_musd_per_year:
+  value: 100
+  model: true
+  note: "MODEL: flight control team, science support and ground systems for a crewed deep-space mission."
+habitat_systems_musd:
+  value: 2500
+  model: true
+  note: "MODEL: transit habitat, life support, propulsion stage and integration. No public estimate exists for this design; set so the launch campaign and payload decide the cost margin."

@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+data/kernels/*
+!data/kernels/README.md
+data/runtime/
+data/models/*.bin
+data/models/piper/
+data/training/raw_pdfs/
+ml/anomaly/data/
+runs/
+.env
+
+# Private working files
+_private/

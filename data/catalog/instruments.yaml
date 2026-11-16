@@ -1,0 +1,94 @@
+# Science payload options, each modelled on a flown NASA instrument.
+# mass_kg and power_w come from the cited flight hardware.
+# data_mbit_day, cost_musd (unless cited) and science values are MODEL:
+# chosen to give the right trade-offs, and labelled as such in the game.
+#
+# serves: which mission objectives (objectives.yaml) the instrument advances,
+# with a 0..1 weight. MODEL.
+
+instruments:
+  - id: hirise_class
+    name: "High-resolution camera"
+    heritage: "HiRISE (Mars Reconnaissance Orbiter)"
+    mass_kg: 65.0
+    power_w: 60.0
+    data_mbit_day: 8000
+    cost_musd: 40
+    serves: { ice: 0.4, landing_sites: 1.0, radiation: 0.0 }
+    sources: [nasa_mro_instruments, hirise_cost]
+    model: [data_mbit_day]
+    note: "0.5 m telescope; sees objects the size of a kitchen table. Its images are huge: only the continuous radio plan brings them all home (data rate MODEL)."
+
+  - id: ctx_class
+    name: "Context camera"
+    heritage: "CTX (Mars Reconnaissance Orbiter)"
+    mass_kg: 3.0
+    power_w: 7.0
+    data_mbit_day: 3000
+    cost_musd: 8
+    serves: { ice: 0.2, landing_sites: 0.5, radiation: 0.0 }
+    sources: [nasa_mro_instruments]
+    model: [data_mbit_day, cost_musd]
+    note: "Wide view that puts the high-resolution images in context."
+
+  - id: crism_class
+    name: "Imaging spectrometer"
+    heritage: "CRISM (Mars Reconnaissance Orbiter)"
+    mass_kg: 32.9
+    power_w: 46.0
+    data_mbit_day: 9000
+    cost_musd: 35
+    serves: { ice: 0.6, landing_sites: 0.4, radiation: 0.0 }
+    sources: [nasa_mro_instruments]
+    model: [data_mbit_day, cost_musd]
+    note: "Finds minerals that only form in water. Power is 44.4-47.3 W in normal operations."
+
+  - id: grs_class
+    name: "Gamma-ray and neutron spectrometer"
+    heritage: "GRS (2001 Mars Odyssey)"
+    mass_kg: 30.2
+    power_w: 32.0
+    data_mbit_day: 400
+    cost_musd: 30
+    serves: { ice: 1.0, landing_sites: 0.2, radiation: 0.2 }
+    sources: [odyssey_fact_sheet]
+    model: [data_mbit_day, cost_musd]
+    note: "Maps hydrogen in the top metre of soil: buried water ice."
+
+  - id: themis_class
+    name: "Thermal infrared imager"
+    heritage: "THEMIS (2001 Mars Odyssey)"
+    mass_kg: 11.2
+    power_w: 17.0
+    data_mbit_day: 1500
+    cost_musd: 15
+    serves: { ice: 0.4, landing_sites: 0.6, radiation: 0.0 }
+    sources: [odyssey_fact_sheet]
+    model: [data_mbit_day, cost_musd]
+    note: "Maps surface minerals and temperature, day and night."
+
+  - id: marie_class
+    name: "Radiation environment experiment"
+    heritage: "MARIE (2001 Mars Odyssey)"
+    mass_kg: 3.3
+    power_w: 7.0
+    data_mbit_day: 50
+    cost_musd: 6
+    serves: { ice: 0.0, landing_sites: 0.0, radiation: 0.7 }
+    sources: [odyssey_fact_sheet]
+    model: [data_mbit_day, cost_musd]
+    note: "Charged-particle spectrometer for the radiation risk to future crews."
+
+  - id: rad_class
+    name: "Radiation assessment detector"
+    heritage: "RAD (Mars Science Laboratory)"
+    mass_kg: 1.56
+    power_w: 4.2
+    data_mbit_day: 1
+    cost_musd: 5
+    serves: { ice: 0.0, landing_sites: 0.0, radiation: 1.0 }
+    sources: [rad_hassler_2016, rad_rafkin_2006]
+    model: [cost_musd]
+    note: >
+      Measured the 1.84 mSv/day cruise dose this game uses. Telemetry about
+      1 Mbit per sol. Doubles as the crew's dosimeter.

@@ -1,0 +1,138 @@
+/* Full 3D workspaces. The original instruments are mounted onto the screen
+   being approached, with an accessible dashboard view always available. */
+body.immersive-mode { overflow: hidden; height: 100vh; }
+.immersive-mode > .mission-head, .immersive-mode > .mission-main,
+.immersive-mode > .ship-deck, .immersive-mode > .ctl-foot { display: none !important; }
+.immersive-mode > #design { display: none !important; }
+#room-root { position: fixed; inset: 0; z-index: 20; background: #0a0b0c; }
+#room-scene { position: absolute; width: 100%; height: 100%; inset: 0; touch-action: none; cursor: grab; }
+.dashboard-mode #room-root { display: none; }
+.room-hud { position: absolute; top: 0; left: 0; right: 0; padding: 20px 28px; display: flex; align-items: center; gap: 24px; color: #f0f0e8; pointer-events: none; background: linear-gradient(#0a0b0cd9, #0a0b0c00); }
+.room-location { display: grid; gap: 4px; text-shadow: 0 1px 3px #0008; }
+.room-location a { color: #f0f0e8; font-size: 18px; text-decoration: none; pointer-events: auto; }
+.room-location span { font-size: 11px; color: #9a9fa2; }
+.room-clock { margin-left: 16px; font: 400 11px/1.6 var(--num); color: #c9c7bf; }
+.room-hud-actions { display: flex; gap: 4px; margin-left: auto; pointer-events: auto; }
+.room-hud-actions button { font-size: 12px; background: #15171acc; color: #e6ece7; border-color: #ffffff1f; border-radius: 3px; min-height: 34px; }
+.room-hud-actions button:hover { background: #2a2d31; border-color: #8e9295; }
+.room-caption { position: absolute; left: 28px; bottom: 24px; color: #a7aaa9; font: 400 11px/1.6 var(--num); pointer-events: none; text-shadow: 0 1px 3px #000; }
+.room-hint { position: absolute; right: 28px; bottom: 24px; color: #d9d6cf; font-size: 12px; pointer-events: none; text-shadow: 0 1px 3px #000; }
+.room-hotspot { position: absolute; margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent !important; cursor: pointer; color: transparent; transition: none; }
+.room-hotspot:hover { background: #ffffff0d !important; }
+.room-hotspot:focus-visible { outline: 2px solid #d4bd92; outline-offset: -3px; background: #ffffff14 !important; }
+.room-hotspot[hidden] { display: none !important; }
+.room-hotspot-cue { outline: 2px solid #d4bd92; outline-offset: -3px; }
+.room-task.room-task-cue { outline: 2px solid #9cc0ca; outline-offset: 2px; }
+.room-feed-canvas { position: fixed; left: -4096px; top: 0; width: 768px; height: 360px; visibility: hidden; pointer-events: none; }
+.room-station-menu { position: absolute; right: 28px; top: 80px; width: 320px; max-height: calc(100vh - 140px); overflow: auto; background: #111315f5; border: 1px solid #3a3e42; padding: 12px; display: grid; gap: 4px; z-index: 5; }
+.room-menu-head { padding: 4px 4px 12px; display: flex; align-items: center; justify-content: space-between; color: #a7aaa9; font-size: 12px; }
+.room-menu-head button { background: transparent; border: 0; font-size: 12px; }
+.room-station-menu > button { text-align: left; background: transparent; border-color: transparent; color: #e3e0d9; padding: 12px; }
+.room-station-menu > button:hover { background: #24272b; }
+.room-station-menu .room-dashboard-link { border-top: 1px solid #2e3236; margin-top: 8px; font-size: 12px; color: #9a9fa2; }
+.instrument-panel { position: fixed; z-index: 100; display: flex; flex-direction: column; background: var(--screen); color: var(--phosphor); border: 6px solid #0d0f10; border-radius: 4px; outline: 1px solid #34383b; box-shadow: 0 16px 40px #0007; overflow: hidden; container-name: instrument; container-type: inline-size; }
+.instrument-chrome { display: flex; gap: 16px; align-items: center; padding: 8px 12px; min-height: 46px; flex: none; border-bottom: 1px solid var(--rule); background: var(--console); }
+.instrument-chrome button { font-size: 11px; background: var(--night); padding: 8px 12px; white-space: nowrap; }
+.instrument-chrome > span { font-size: 12px; }
+.instrument-origin { margin-left: auto; color: var(--dim); font-size: 10px !important; }
+.instrument-body { flex: 1; min-height: 0; overflow: auto; padding: 24px; }
+.instrument-body > .room-mounted.hidden { display: block !important; }
+.instrument-body > .room-mounted { min-width: 0; width: 100%; margin: 0; box-sizing: border-box; }
+.instrument-body > #design { position: static; z-index: auto; height: 100%; min-height: 0; overflow: visible; display: grid !important; grid-template-columns: 152px minmax(0, 1fr) 320px; background: var(--night); }
+.instrument-panel[data-kind='design'] .instrument-body { padding: 0; }
+.instrument-body .design .step-main { padding: 24px; }
+.instrument-body .design .step-head h1 { font-size: 24px; }
+.instrument-body .design .summary.board { padding: 16px; }
+.instrument-body .budget-review .band { white-space: nowrap; }
+.instrument-body .design .steps { padding: 20px 12px; }
+.instrument-body .design .steps .t { font-size: 12px; }
+.instrument-body .design .steps .s { font-size: 10px; }
+.instrument-body .design .steps li button { grid-template-columns: 24px 1fr; padding: 8px 4px; gap: 4px; }
+.instrument-body .wall-plot { min-height: 100%; display: flex !important; border: 0; padding: 0; }
+.instrument-body .wall-plot .plot-view { flex: 1; min-height: 280px; }
+.instrument-body .wall-screen { border: 0; padding: 0; }
+.instrument-body .wall-weather #sw { max-height: none; }
+.instrument-body #ship-col { padding: 0; border: 0; }
+.instrument-body #tlm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 32px; }
+.instrument-body .radio-desk { padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.instrument-body .radio-desk > #send-panel { grid-row: span 2; }
+.instrument-body .radio-desk #inbox { max-height: 280px; }
+.instrument-body #sci-pane { display: flex !important; gap: 16px; }
+.instrument-body .source-line { margin-bottom: 12px; }
+.instrument-body .cabin-window { padding: 0; border: 0; background: transparent; }
+.instrument-body .cabin-window .stage { height: min(48vh, 420px); }
+.instrument-body #commander-station { border: 0; }
+.instrument-body #commander-station > .station-head { display: none; }
+.instrument-body .safety-console { padding: 0; }
+.instrument-body #systems { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+.instrument-body .sys { padding: 12px 0; }
+.instrument-body .sys .acts button { font-size: 12px; }
+.instrument-body .sys .readouts { gap: 16px; }
+.instrument-body .pane, .instrument-body .dock { padding: 0; margin-top: 16px; }
+.instrument-body .pane-wrap { display: block !important; }
+.instrument-body .crew-cards { grid-template-columns: 1fr 1fr; }
+.instrument-body .room-design-record td.v { white-space: normal; }
+.room-design-record h2 { margin-bottom: 16px; }
+.room-design-record .kv td { padding: 12px 0; }
+.room-dashboard-return { display: none; }
+.dashboard-mode .room-dashboard-return { display: block !important; position: fixed; right: 20px; bottom: 20px; z-index: 95; font-size: 12px; }
+.immersive-mode .card { z-index: 65; top: auto; left: 28px; bottom: 80px; width: min(460px, calc(100vw - 56px)); padding: 16px 20px; background: #111315e6; border: 1px solid #3a3e4280; border-radius: 3px; transform: none; text-align: left; }
+.immersive-mode .card h1 { font-size: 24px; }
+.immersive-mode .card p { font-size: 13px; margin-top: 8px; }
+.immersive-mode .toasts { z-index: 120; left: 28px; bottom: 64px; right: auto; }
+.instrument-focused .room-hint, .instrument-focused .room-caption { opacity: 0; }
+.instrument-focused .room-hud { opacity: 0.3; }
+.instrument-focused .room-hud-actions { pointer-events: none; }
+/* The 3D clock strip and the HUD clock must never print over each other. */
+.instrument-focused .room-clock, .instrument-focused .room-location { visibility: hidden; }
+.immersive-mode > .scrim { z-index: 140; }
+.immersive-mode > .drawer { z-index: 130; }
+.room-task { padding: 8px 12px; max-width: 520px; align-self: flex-start; background: #111315cc; color: #dedbd3; border: 1px solid #ffffff1f; font-size: 12px; text-align: left; }
+/* Bottom-left stack (Phase 5 bug 2): scene card, then messages, then the task. Nothing overlaps. */
+.room-stack { position: fixed; left: 28px; bottom: 56px; z-index: 120; display: flex; flex-direction: column; align-items: stretch; gap: 8px; width: min(460px, calc(100vw - 56px)); pointer-events: none; }
+.room-stack > * { pointer-events: auto; }
+.immersive-mode .room-stack .card { position: static; transform: none; width: auto; z-index: auto; }
+.immersive-mode .room-stack .toasts { position: static; max-width: none; z-index: auto; align-items: stretch; }
+.immersive-mode .room-stack .toasts .toast:nth-last-child(n+4) { display: none; } /* three newest only: the gauges stay visible */
+body:not(.immersive-mode) .room-stack { display: contents; }
+body:not(.immersive-mode) .room-stack > .room-task { display: none; }
+.instrument-focused .room-stack .card { display: none; }
+.instrument-focused .room-task { display: none; }
+@container instrument (max-width: 1000px) {
+  .instrument-body > #design { grid-template-columns: 140px minmax(0, 1fr); height: auto; }
+  .instrument-body .design .summary { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .room-hud { padding: 16px; flex-wrap: wrap; gap: 12px; }
+  .room-location a { font-size: 16px; }
+  .room-location span { font-size: 10px; }
+  .room-clock { margin-left: auto; font-size: 9px; max-width: 140px; text-align: right; }
+  .room-hud-actions { width: 100%; margin-left: 0; }
+  .room-hud-actions button { flex: 1; padding: 8px; font-size: 10px; }
+  .room-hint { bottom: 16px; left: 16px; right: 16px; font-size: 10px; }
+  .room-caption { left: 16px; bottom: 36px; font-size: 9px; }
+  .room-stack { left: 16px; bottom: 64px; width: calc(100vw - 32px); }
+  .room-station-menu { right: 16px; left: 16px; top: 120px; width: auto; }
+  .instrument-panel { border-width: 3px; }
+  .instrument-chrome { gap: 8px; padding: 8px; flex-wrap: wrap; }
+  .instrument-origin { display: none; }
+  .instrument-chrome > span { font-size: 11px; }
+  .instrument-chrome button { padding: 8px; font-size: 10px; }
+  .instrument-body { padding: 16px; }
+  .instrument-body > #design { grid-template-columns: minmax(0, 1fr); }
+  .instrument-body .design .steps { padding: 12px; }
+  .instrument-body .design .steps ol { flex-direction: row; overflow: auto; }
+  .instrument-body .design .steps li button { min-width: 128px; }
+  .instrument-body .design .step-main { padding: 20px 16px; }
+  .instrument-body .radio-desk, .instrument-body #systems, .instrument-body #tlm { grid-template-columns: minmax(0, 1fr); }
+  .instrument-body .radio-desk > #send-panel { grid-row: auto; }
+  .instrument-body .crew-cards { grid-template-columns: 1fr; }
+  .instrument-body .safety-readouts { grid-template-columns: 1fr; }
+  .instrument-body .kv td.v { white-space: normal; overflow-wrap: anywhere; }
+}
+
+/* Ship side: cool accent for focus. */
+[data-room='ship'] .room-hotspot:focus-visible { outline-color: #9cc0ca; }
+.room-vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 75% 70% at 50% 48%, transparent 58%, #000000a0 100%); }
+/* The debrief page covers the room: its task and old messages go with it. */
+body:has(.debrief-page) .room-stack > .room-task, body:has(.debrief-page) .room-stack .card { display: none; }

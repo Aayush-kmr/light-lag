@@ -1,0 +1,42 @@
+# Literature reference events.
+#
+# Used ONLY when no raw DONKI cache exists (run: python -m tools.fetch_donki).
+# Every value below is transcribed from the cited source. Where a value was
+# not available in a cited source it is left null, never guessed - the model
+# then falls back to a documented default and the UI labels it "MODEL".
+events:
+  - id: "2017-09-10-X8.2"
+    label: "X8.2 flare, AR 12673 at the west limb - GLE 72"
+    citation: >-
+      Flare start 15:35 UT, peak 16:06 UT, location S08W88: Guo et al. 2018,
+      arXiv:1803.00461 (Space Weather), and Ackermann et al. (Fermi-LAT), arXiv:1803.07654.
+      CME first seen by LASCO C2 at 16:00:07 UT, initial speed 3620 km/s: arXiv:1803.07654.
+      Proton release into open field lines estimated 15:53-15:55 UT; SPE/GLE onset at 1 AU
+      16:06-16:08 UT: Kurt et al., arXiv:1806.00226. Widespread event seen at L1, STEREO-A
+      (~128 deg ahead of Earth) and on the surface of Mars by MSL/RAD: arXiv:2004.00355, Guo et al. 2018.
+    flare_start_utc: "2017-09-10T15:35:00Z"
+    flare_peak_utc: "2017-09-10T16:06:00Z"
+    flare_class: "X8.2"
+    location: "S08W88"
+    cme_speed_km_s: 3620
+    cme_half_width_deg: 60
+    release_delay_min: 18
+    v_sw_km_s: 400
+    widespread: true
+    notes: "The second-largest flare of solar cycle 24 and the first GLE ever observed on two planets."
+
+  - id: "2017-09-06-X9.3"
+    label: "X9.3 flare, AR 12673 - largest flare of solar cycle 24"
+    citation: >-
+      Flare start 11:53 UT, peak 12:02 UT, location S09W34: Guo et al. 2018, arXiv:1803.00461.
+      CME speed not transcribed here (not in the cited text); a DONKI cache will supply it.
+    flare_start_utc: "2017-09-06T11:53:00Z"
+    flare_peak_utc: "2017-09-06T12:02:00Z"
+    flare_class: "X9.3"
+    location: "S09W34"
+    cme_speed_km_s: null
+    cme_half_width_deg: 45
+    release_delay_min: 15
+    v_sw_km_s: 400
+    widespread: false
+    notes: "Same active region as the 10 September event, four days earlier, nearer disk centre."

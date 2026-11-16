@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- LIGHT-LAG game server as a macOS LaunchAgent. Edit the two paths, then:
+     cp deploy/com.lightlag.server.plist ~/Library/LaunchAgents/
+     launchctl load ~/Library/LaunchAgents/com.lightlag.server.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.lightlag.server</string>
+  <key>WorkingDirectory</key><string>/Users/YOUR_USER/light-lag/server</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/YOUR_USER/light-lag/.venv/bin/python</string>
+    <string>-m</string>
+    <string>lightlag</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>LL_PUBLIC</key><string>1</string>
+    <!-- Only the tunnel talks to the server, so listen on loopback only. -->
+    <key>LL_HOST</key><string>127.0.0.1</string>
+    <key>LL_PORT</key><string>8765</string>
+    <key>LL_MAX_ROOMS</key><string>8</string>
+    <key>LL_ADMIN_TOKEN</key><string>CHANGE-ME-long-random-string</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/tmp/lightlag.server.log</string>
+  <key>StandardErrorPath</key><string>/tmp/lightlag.server.log</string>
+</dict>
+</plist>

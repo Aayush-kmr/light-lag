@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="/shared/style.css"><link rel="icon" href="data:,">
+<script type="importmap">{"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/vendor/three/addons/"}}</script>
+<style>body{margin:0}#w{position:fixed;inset:0}canvas{width:100%;height:100%}</style></head>
+<body><div id="w"><canvas id="c"></canvas></div>
+<script type="module">
+import { SpaceView } from '/shared/viewport.js';
+const q = new URLSearchParams(location.search), mode = q.get('case') || 'hero';
+const n = (a) => { const l = Math.hypot(...a); return a.map((x) => x / l); };
+const cases = {
+  day1: { ship_phase: 'cruise', lt_up_s: 1.2, viewport: { sun: { dir: n([-0.3, 0.9, 0.2]), dist_km: 1.5e8, ang_diam_deg: 0.53 }, earth: { dir: n([0.8, 0.2, -0.3]), dist_km: 360000, ang_diam_deg: 2.03 }, mars: { dir: n([-0.5, -0.8, 0.1]), dist_km: 1.6e8, ang_diam_deg: 0.002 } } },
+  cruise: { ship_phase: 'cruise', lt_up_s: 262, viewport: { sun: { dir: n([-0.6, 0.7, 0.2]), dist_km: 2e8, ang_diam_deg: 0.4 }, earth: { dir: n([0.9, 0.3, -0.2]), dist_km: 7.8e7, ang_diam_deg: 0.009 }, mars: { dir: n([-0.3, -0.9, 0.2]), dist_km: 9e7, ang_diam_deg: 0.004 } } },
+  orbit: { ship_phase: 'mars_orbit', lt_up_s: 1314, viewport: { sun: { dir: n([0.5, 0.8, 0.1]), dist_km: 2.2e8, ang_diam_deg: 0.35 }, earth: { dir: n([0.48, 0.86, 0.12]), dist_km: 3.9e8, ang_diam_deg: 0.0019 }, mars: { dir: n([-0.7, 0.3, -0.6]), dist_km: 22000, ang_diam_deg: 17.7 } } },
+};
+const v = new SpaceView(document.getElementById('c'), { hero: mode === 'hero' });
+if (mode !== 'hero') {
+  const g = cases[mode];
+  v.update({ et: 659836800, rate: 10, geometry: g, comms: { link: { uplink_open: true, downlink_open: true }, in_flight: [
+    { kind: 'alert', direction: 'up', frac: 0.6, tx_et: 0, arrive_et: 262 }, { kind: 'letter', direction: 'down', frac: 0.2, tx_et: 0, arrive_et: 262 },
+    { kind: 'telemetry', direction: 'down', frac: 0.45, tx_et: 0, arrive_et: 262 } ] }, ship: { attitude: q.get('storm') === '1' } });
+}
+</script></body></html>

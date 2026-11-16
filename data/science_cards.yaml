@@ -1,0 +1,113 @@
+# "Science Desk" cards: short explainers the UI surfaces in context.
+# Keep each under ~70 words. Every card names its source.
+cards:
+  - id: light_time
+    title: "Why does a message take minutes?"
+    trigger: lt
+    body: "Radio is light. Light covers 299,792 km every second, so Earth to Mars takes 3 to 22 minutes depending on where both planets are in their orbits. The number on your screen is the one-way light time computed by NASA's SPICE toolkit for today's real positions."
+    source: "NAIF SPICE spkezr, JPL DE440"
+  - id: uplink_downlink
+    title: "Why can Earth talk when the ship can't?"
+    trigger: link
+    body: "An antenna on Earth must be pointed at the ship while the signal *arrives*. So Earth can transmit any time a station is tracking, but the ship has to start talking one light-time before a pass begins, into an antenna that isn't pointed at it yet. Uplink and downlink windows are offset by the light time."
+    source: "LIGHT-LAG contact plan; DSN operations practice"
+  - id: dtn
+    title: "Store and forward"
+    trigger: queue
+    body: "There is no 'connection' to Mars. Every message is a bundle with a lifetime and a priority; it waits in storage until a contact opens, then moves one hop. This is Delay/Disruption Tolerant Networking, the Bundle Protocol (RFC 9171), which NASA has tested on the ISS."
+    source: "IETF RFC 9171"
+  - id: conjunction
+    title: "When the Sun gets in the way"
+    trigger: conjunction
+    body: "Every ~26 months Mars passes behind the Sun. Radio skimming the corona is scrambled, so NASA stops commanding its Mars fleet. In 2021 the moratorium ran Oct 2-16. Our Sun-Earth-probe angle drops below 2 degrees on 2021-10-02 too: same physics, same day."
+    source: "NASA/JPL release 2021-200; SPICE geometry"
+  - id: dsn
+    title: "Three antennas, one planet"
+    trigger: dsn
+    body: "The Deep Space Network has complexes in California, Spain and Australia, about 120 degrees apart, so one can always see a deep-space craft as Earth turns. But antenna time is shared by dozens of missions. Gaps between your booked passes are when messages wait."
+    source: "NASA/JPL DSN"
+  - id: porkchop
+    title: "Reading a porkchop plot"
+    trigger: design
+    body: "Each pixel is a launch date and an arrival date. Colour is the energy needed. The low-energy 'island' repeats every 780 days (the Earth-Mars synodic period), which is why Mars missions launch in waves. Perseverance used the 2020 window: C3 about 14.5 km^2/s^2."
+    source: "Lambert solver on JPL DE440"
+  - id: parker
+    title: "Why the protons come later"
+    trigger: storm
+    body: "Flare light flies straight. Protons follow the Sun's magnetic field, which the solar wind winds into a spiral, so their path is longer than the straight line, and only places magnetically connected to the flare get hit hard. A flare near the Sun's west limb is well connected to Earth."
+    source: "Parker (1958); event: SOL2017-09-10"
+  - id: shielding
+    title: "Shielding: great against one, hopeless against the other"
+    trigger: dose
+    body: "Solar protons are stopped by mass, so a water-walled shelter cuts their dose several-fold. Galactic cosmic rays are GeV nuclei; even a foot of aluminium barely helps. MSL's RAD measured 1.84 mSv per day of cosmic rays in cruise. A 15-month mission exceeds NASA's 600 mSv career limit on cosmic rays alone."
+    source: "Zeitlin et al. 2013; NASA-STD-3001"
+  - id: forbush
+    title: "A storm that lowers your dose"
+    trigger: cme
+    body: "When a CME's magnetic cloud sweeps past, it shields you from some galactic cosmic rays for a day or two: a Forbush decrease. MSL's RAD saw one at Mars on 11 Sept 2017, hours after the X8.2 flare."
+    source: "Guo et al. 2018"
+  - id: autonomy
+    title: "When should a machine stop asking?"
+    trigger: policy
+    body: "TERN's rule: if the time until harm is shorter than the time it takes to ask Earth and hear back, act and log why. At 4 light-minutes asking is fine. At 22 it's risky. Behind the Sun it's impossible. That inequality is the whole case for spacecraft autonomy."
+    source: "LIGHT-LAG autonomy engine"
+  - id: staleness
+    title: "Everything you see is already old"
+    trigger: telemetry
+    body: "Lantern never sees the ship as it is, only as it was one light-time ago. The age badge on each reading is how far in the past you are looking. The ship sees Earth the same way: the blue dot in the window is where Earth was minutes ago."
+    source: "Special relativity, the polite version"
+  - id: quindar
+    title: "The beeps"
+    trigger: voice
+    body: "Those two tones at the start and end of every voice note are Quindar tones: 2525 Hz to key the transmitter, 2475 Hz to release it. Apollo used them to switch remote transmitters over phone lines. They became the sound of spaceflight."
+    source: "NASA Apollo communications"
+  - id: payload
+    title: "Why instruments trade against each other"
+    trigger: payload
+    body: "The high-resolution camera sees objects the size of a kitchen table, but its images are far bigger than an antenna at Mars can send home. The gamma-ray spectrometer weighs 30 kg and finds buried ice with a trickle of data. Every instrument here flew on Mars Reconnaissance Orbiter, Mars Odyssey or Curiosity, with its real mass and power."
+    source: "NASA MRO and Mars Odyssey instrument pages; MSL RAD (data rates are MODEL)"
+  - id: whole_rockets
+    title: "Rockets come whole"
+    trigger: vehicle
+    body: "Meridian-1 is assembled in low Earth orbit, so its mass there is rounded up to whole launches. Extra mass is free until it tips you into one more rocket, and then it costs a whole launch. A cheaper rocket that lifts less can still cost more, because you need more of them."
+    source: "SpaceX; AIAA Vehicle Guide; NASA OIG IG-22-003"
+  - id: mars_sunlight
+    title: "Why Mars has less sunlight"
+    trigger: power
+    body: "Sunlight thins with the square of distance. Mars orbits 1.52 times farther from the Sun than Earth, so the same solar array makes 43% of its Earth output there. An array that looks huge at launch can leave the ship short at Mars, and one failed string makes it worse."
+    source: "NASA Mars Fact Sheet (NSSDCA): solar irradiance 0.431 of Earth's"
+  - id: antenna_bottleneck
+    title: "The antenna is the bottleneck"
+    trigger: data
+    body: "Radio spreads out like light: twice as far, a quarter of the signal, so the data rate falls with the square of the distance. At Mars the ship sends a few hundred kilobits a second at best, and only while a dish on Earth is listening. Instruments that make more data than the antenna can send home are just extra mass."
+    source: "Inverse-square law; LIGHT-LAG link model (comms/contact_plan.py); DSN aperture fees: NASA SCaN-MOCS-0001"
+  - id: margin
+    title: "Why every budget needs margin"
+    trigger: margin
+    body: "Early designs always grow: parts come in heavier and loads higher than the first estimate. Concurrent engineering teams such as JPL's Team X carry margin on every budget so the design still closes when that happens. Here 10% or more is green, 0 to 10% is yellow, and below zero the design does not close."
+    source: "Concurrent engineering practice (JPL Team X, ESA CDF); band thresholds are MODEL"
+  - id: review
+    title: "Why a review before launch?"
+    trigger: review
+    body: "NASA projects pass a series of formal reviews, each a gate the design must clear before money and people are committed to the next step. A board of people who did not design it checks the numbers and the cases the designers did not run. The board in this game is a model of that idea, with five reviewers and rules you can read."
+    source: "NASA NPR 7120.5 (life-cycle reviews); this game's board is MODEL"
+  - id: liens
+    title: "Passing with a lien"
+    trigger: lien
+    body: "A board can say go and still write down a concern: a margin that is thin, a risk nobody can retire yet. That is a lien. The mission flies with it, and everyone knows what was accepted. In this game, liens come back in flight when they come true, and in the debrief."
+    source: "LIGHT-LAG review board (MODEL), after NASA review practice"
+  - id: slip
+    title: "Why a slip costs launch energy"
+    trigger: slip
+    body: "The best Earth to Mars trips need a particular alignment. Leave ten days late for the same arrival and the transfer is shorter and harder: higher launch energy (C3), more propellant, a heavier ship in orbit. Slip far enough and the window closes; the next one is about 26 months away."
+    source: "Lambert solutions on the real 2020 geometry; NASA Mars Fact Sheet (synodic period 779.94 days)"
+  - id: counterfactual
+    title: "What if you had chosen differently?"
+    trigger: counterfactual
+    body: "The game never re-flies the mission to answer that. It takes the same formula the flight used, swaps in the other choice and does the arithmetic again: the storm dose with a thinner shelter, the array output one string short. That is a model, so it is always marked MODEL."
+    source: "LIGHT-LAG callouts (server/lightlag/sim/callouts.py)"
+  - id: july_2020
+    title: "Why did three missions leave for Mars in July 2020?"
+    trigger: reality
+    body: "Earth, on the inside track, laps Mars about once every 26 months. Only around then can a ship reach Mars in months rather than years for a launch energy a rocket can supply. In July 2020 the UAE's Hope, China's Tianwen-1 and NASA's Perseverance all used the same window. Meridian-1 flies it too."
+    source: "NASA/JPL Mars 2020 Perseverance Landing Press Kit (Mission); NASA Mars Fact Sheet (synodic period 779.94 days)"

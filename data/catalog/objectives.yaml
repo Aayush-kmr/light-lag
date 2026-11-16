@@ -1,0 +1,48 @@
+# Mission objectives the team can choose in Pre-Phase A. The objective sets
+# which instruments score (instruments.yaml `serves`). Weights are MODEL.
+#
+# min_data_gbit: data the mission must bring home over its stay at Mars. MODEL.
+#   Tuned in Phase 5 so the radio plan matters: each need sits a few percent
+#   below what a sensible payload returns on the plan it needs, so a weaker
+#   plan comes in short. Values are what the design bay estimates over the
+#   260-day stay at the default 2020 launch, including the 11 dark days of the
+#   2021 conjunction (stays at other launch dates shift them a little).
+# cost_cap_musd: what the sponsor will fund for this objective, US$ millions.
+#   MODEL: no public cap exists for a crewed mission of this size; the caps
+#   are set so that one extra rocket or the costliest payload eats the margin.
+
+objectives:
+  - id: ice
+    name: "Find water ice for future crews"
+    pitch: "Map where buried ice sits close to the surface. Water is drinking water, oxygen and rocket fuel."
+    min_data_gbit: 810
+    cost_cap_musd: 3500
+    model: [min_data_gbit, cost_cap_musd]
+    note: >-
+      MODEL. The default payload (GRS, CTX and RAD class, 3.4 Gbit a day) on the
+      standard radio plan brings home about 836 Gbit in the estimate and 840 Gbit
+      in flight: met with a margin of about 3 to 4%. On the lean plan the same
+      payload returns about 809 Gbit in the estimate and 787 Gbit in flight, so
+      the objective is missed. Was 400 Gbit, which every radio plan met twice over.
+  - id: landing_sites
+    name: "Certify landing sites"
+    pitch: "Image candidate sites sharply enough to see boulders that would kill a lander."
+    min_data_gbit: 2300
+    cost_cap_musd: 3600
+    model: [min_data_gbit, cost_cap_musd]
+    note: >-
+      MODEL. A HiRISE-class camera with CTX makes about 11 Gbit a day; only the
+      continuous radio plan carries it, returning about 2,550 Gbit (10% margin).
+      The standard plan returns about 2,070 Gbit and misses. Was 1,500 Gbit.
+  - id: radiation
+    name: "Measure the radiation risk to crews"
+    pitch: "Measure the dose on the way and in orbit, through quiet times and storms."
+    min_data_gbit: 90
+    cost_cap_musd: 3300
+    model: [min_data_gbit, cost_cap_musd]
+    note: >-
+      MODEL. Radiation instruments make little data (RAD 1 Mbit, MARIE 50 Mbit,
+      GRS 400 Mbit a day), so any radio plan carries them; the need is set so the
+      instruments that measure dose must run the whole stay. GRS, MARIE and RAD
+      class return about 112 Gbit (20% margin); GRS with RAD about 100 Gbit.
+      Was 1 Gbit.
