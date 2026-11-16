@@ -2,6 +2,8 @@
 
 **Design the mission. Then live with it at the speed of light.**
 
+Made by [Aayush Kumar](https://www.linkedin.com/in/aayushkumars/) ([GitHub](https://github.com/Aayush-kmr)) and [Mikhail Nikolaenko](https://www.linkedin.com/in/mikhail-nikolaenko-b6a442245/) ([GitHub](https://github.com/MikhailNikolaenko)), team *Goodnight, over*.
+
 Light-lag is a free, co-op Mars mission game for classrooms, clubs, families and anyone curious about spaceflight. Up to four people plan a crewed mission to Mars on the real 2020 launch window, then fly it together, with every message between Earth and the ship delayed by the true speed of light. Anyone can play alone: the game fills every empty seat.
 
 **Play in your browser: https://lightlag.byaayushkumar.com**, or [run it on your own computer](#run-it-yourself). The project presentation: [PDF](docs/presentation/Light-lag.pdf) · [PowerPoint](docs/presentation/Light-lag.pptx).
@@ -150,6 +152,9 @@ docs/              design, science and technical notes
 ## Credits
 
 Made by team **Goodnight, over** at the NASA Space Apps Challenge 2026 (Cincinnati), for the *Space Mission Design Game* challenge.
+
+- **Aayush Kumar** · [LinkedIn](https://www.linkedin.com/in/aayushkumars/) · [GitHub](https://github.com/Aayush-kmr)
+- **Mikhail Nikolaenko** · [LinkedIn](https://www.linkedin.com/in/mikhail-nikolaenko-b6a442245/) · [GitHub](https://github.com/MikhailNikolaenko)
 
 **NASA data**
 - **NASA/JPL NAIF SPICE:** DE440 planetary ephemeris, naif0012 leap seconds, pck00011 planetary constants, DSN station kernels. Every position and light time in the game.
