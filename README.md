@@ -4,7 +4,7 @@
 
 Light-lag is a free, co-op Mars mission game for classrooms, clubs, families and anyone curious about spaceflight. Up to four people plan a crewed mission to Mars on the real 2020 launch window, then fly it together, with every message between Earth and the ship delayed by the true speed of light. Anyone can play alone: the game fills every empty seat.
 
-**Play in your browser: https://lightlag.byaayushkumar.com**, or [run it on your own computer](#run-it-yourself).
+**Play in your browser: https://lightlag.byaayushkumar.com**, or [run it on your own computer](#run-it-yourself). The project presentation: [PDF](docs/presentation/Light-lag.pdf) · [PowerPoint](docs/presentation/Light-lag.pptx).
 
 ![The cockpit of Meridian-1 during the burn that sends it to Mars](docs/img/tmi-burn.png)
 
